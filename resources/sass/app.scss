@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+
+$primary: #cd1007;
+$light-primary: #fae7e6;
+$black: #140201;
+$fa-font-path: "../webfonts";
+
+html {
+    font-size: 62.5%;
+}
+
+.login-container {
+    padding: 0 5rem;
+    min-height: 100vh;
+}
+
+.login-col-1 {
+    background: url("../../public/images/Orderya.png");
+}
+
+.swal2-popup {
+    font-size: 1.6rem !important;
+    font-family: Georgia, serif;
+}
+
+.welcome-title {
+    font-size: 3rem;
+}
+
+.side-list-item:hover {
+    background: $light-primary;
+    cursor: pointer;
+    border-left: 0.4rem solid $primary;
+}
+
+.side-list-item {
+    position: relative;
+}
+
+.side-link,
+.icon-link {
+    color: $black;
+}
+
+.side-list-item:hover .side-link,
+.side-list-item:hover .icon-link {
+    color: $primary;
+}
+
+@import "variables";
+
+@import "~bootstrap/scss/bootstrap";
