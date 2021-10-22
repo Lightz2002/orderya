@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import jensen from "../../../../../public/images/teams/Jensen.jpeg";
 import vinson from "../../../../../public/images/teams/Vinson.jpeg";
@@ -37,15 +37,22 @@ function HomeTeams() {
         },
     ];
     return (
-        <Container className="d-flex justify-content-evenly">
-            {teams.map((team) => (
-                <TeamsItem
-                    key={uuidv4()}
-                    src={team.src}
-                    title={team.title}
-                    text={team.text}
-                />
-            ))}
+        <Container id="teams" className="mt-5">
+            <h1 className="border-bottom border-5 border-primary home-about-title mx-auto mb-5">
+                Teams
+            </h1>
+            <Row className="justify-content-center">
+                {teams.map((team) => (
+                    <Col xs={7} lg={2}>
+                        <TeamsItem
+                            key={uuidv4()}
+                            src={team.src}
+                            title={team.title}
+                            text={team.text}
+                        />
+                    </Col>
+                ))}
+            </Row>
         </Container>
     );
 }

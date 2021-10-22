@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Image, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import heroes from "../../../../../public/images/home-heroes.jpg";
 
 function HomeIntro() {
@@ -14,7 +15,12 @@ function HomeIntro() {
                         it throught this website by logging in
                     </p>
                     <Button variant="primary" className="px-4 fs-4">
-                        Login To Order
+                        <Link
+                            to="/login"
+                            className="text-light text-decoration-none"
+                        >
+                            Login To Order
+                        </Link>
                     </Button>{" "}
                 </Col>
                 <Col md={7} className="home-heroes-container">

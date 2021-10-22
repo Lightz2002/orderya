@@ -6,7 +6,7 @@ import wifi from "../../../../../public/images/carousel/wifi.jpg";
 
 function HomeAbout() {
     return (
-        <Container className="mh-100 ">
+        <Container id="about" className="mh-100 ">
             <Row>
                 <Carousel>
                     <Carousel.Item>
