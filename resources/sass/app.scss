@@ -51,6 +51,47 @@ html {
     color: $primary;
 }
 
+.home-navbar {
+    width: 75%;
+}
+
+@media only screen and (min-width: 992px) {
+    .home-navbar {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .home-heroes-container {
+        padding: 5rem;
+    }
+}
+
+.home-intro-title {
+    font-size: 4rem;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 5rem !important;
+    height: 5rem !important;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.carousel-caption {
+    z-index: 999;
+}
+
 @import "variables";
 
 @import "~bootstrap/scss/bootstrap";

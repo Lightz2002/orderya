@@ -1,14 +1,15 @@
 import React from "react";
 import { ListGroup } from "react-bootstrap";
 import { Link, useRouteMatch } from "react-router-dom";
+import { upperLink, toLink } from "../../../helper";
 
 function DashboardLink({ to, icon }) {
     let match = useRouteMatch({
         path: to,
     });
 
-    const upperLink = to[0].toUpperCase().concat(to.slice(1));
-    const link = "/" + to;
+    const upperCaseLink = upperLink(to);
+    const link = toLink(to);
 
     return (
         <ListGroup.Item
@@ -16,7 +17,7 @@ function DashboardLink({ to, icon }) {
         >
             <i className={`icon-link fas fa-${icon} me-3`}></i>
             <Link to={link} className="side-link text-decoration-none  ">
-                {upperLink}
+                {upperCaseLink}
             </Link>
         </ListGroup.Item>
     );

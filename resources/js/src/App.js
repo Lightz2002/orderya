@@ -7,11 +7,11 @@ import Register from "./components/login/Register";
 import Recover from "./components/login/Recover";
 import Dashboard from "./components/dashboard/Dashboard";
 import Home from "./components/home/Home";
-import url from "../url";
+import { API_URL } from "../config";
 
 import axios from "axios";
 
-axios.defaults.baseURL = { url };
+axios.defaults.baseURL = { API_URL };
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Accept"] = "application/json";
 axios.defaults.headers.post["Content-Type"] = "application/json";

@@ -1,7 +1,8 @@
 import React from "react";
 import { ListGroup, Image, Container, Row } from "react-bootstrap";
-import DashboardLink from "./DashboardLink";
 import { v4 as uuidv4 } from "uuid";
+import DashboardLink from "./DashboardLink";
+
 import logo from "../../../../../public/images/logo-horizontal.png";
 
 function DashboardSidebar() {
