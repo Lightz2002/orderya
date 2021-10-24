@@ -16,9 +16,36 @@ use App\Http\Controllers\UserController;
 |
  */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+/* 
+    Author Login & Register: Ryan & Ricky
+    Author Home: Jensen & Nicholas
+    Author Dashboard: Ryan & Vinson
+*/
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+
+
+Route::middleware(['auth:sanctum', 'isAdminAPI'])->group(function () {
+
+    Route::get('/checkingAuthorization', function() {
+        return response()->json(['status' => 200, 'message' => 'You are in'], 200);
+    });
+     
+ 
+});
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::get('/checkingAuthentication', function() {
+        return response()->json(['status' => 200, 'message' => 'You are in'], 200);
+    });
+
+    Route::post('logout', [UserController::class, 'logout']);
+     
+});
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });

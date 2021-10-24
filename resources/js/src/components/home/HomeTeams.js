@@ -43,9 +43,8 @@ function HomeTeams() {
             </h1>
             <Row className="justify-content-center">
                 {teams.map((team) => (
-                    <Col xs={7} lg={2}>
+                    <Col key={uuidv4()} xs={7} lg={2}>
                         <TeamsItem
-                            key={uuidv4()}
                             src={team.src}
                             title={team.title}
                             text={team.text}

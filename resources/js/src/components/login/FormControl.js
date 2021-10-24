@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 
 function FormControl({ type, label, name, setType, errors }) {

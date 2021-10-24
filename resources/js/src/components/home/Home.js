@@ -5,6 +5,10 @@ import HomeIntro from "./HomeIntro";
 import HomeAbout from "./HomeAbout";
 import HomeTeams from "./HomeTeams";
 
+/* 
+Author: Nicholas & jensen
+*/
+
 function Home() {
     return (
         <Container fluid>

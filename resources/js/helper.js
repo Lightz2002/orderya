@@ -3,5 +3,9 @@ export const upperLink = (url) => {
 };
 
 export const toLink = (url) => {
-    return "/" + url;
+    if (url == "dashboard") {
+        return "/";
+    } else {
+        return "/" + url;
+    }
 };

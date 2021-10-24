@@ -55,21 +55,6 @@ html {
     width: 75%;
 }
 
-@media only screen and (min-width: 992px) {
-    .home-navbar {
-        width: 50%;
-    }
-    .home-about-title {
-        font-size: 4rem;
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    .home-heroes-container {
-        padding: 5rem;
-    }
-}
-
 .home-intro-title {
     font-size: 4rem;
 }
@@ -100,6 +85,33 @@ html {
     font-size: 3rem;
 }
 
+.login-button,
+.logout-button {
+    width: 25%;
+}
+
+.dashboard-col-2 {
+    margin-left: 21.334rem;
+}
+
+@media only screen and (min-width: 992px) {
+    .home-navbar {
+        width: 50%;
+    }
+    .home-about-title {
+        font-size: 4rem;
+    }
+    .login-button,
+    .logout-button {
+        width: 10%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .home-heroes-container {
+        padding: 5rem;
+    }
+}
 @import "variables";
 
 @import "~bootstrap/scss/bootstrap";

@@ -1,16 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DashboardNavbar from "./DashboardNavbar";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import DashboardSidebar from "./DashboardSidebar";
-import DashboardContent from "./DashboardContent";
-import { Container, Row, Col } from "react-bootstrap";
 import DashboardLinkContent from "./DashboardLinkContent";
+import { Container, Row, Col } from "react-bootstrap";
 
-/* 
-Author: Ryan & Vinson
-*/
-
-function Dashboard() {
+function DashboardAdmin() {
     return (
         <Router basename="dashboard">
             <Container fluid className="p-0 vw-100">
@@ -20,7 +16,7 @@ function Dashboard() {
                         lg={2}
                         className="position-fixed top-0 bottom-0 p-0 mw-100"
                     >
-                        <DashboardSidebar isAdmin={false} />
+                        <DashboardSidebar isAdmin={true} />
                     </Col>
                     <Col
                         xs={9}
@@ -30,7 +26,7 @@ function Dashboard() {
                         <DashboardNavbar />
                         <Switch>
                             <Route exact path="/">
-                                <h1>This Is User Dashboard</h1>
+                                <h1>This is admin dashboard</h1>
                             </Route>
                             <Route path="/foods">
                                 <DashboardLinkContent />
@@ -38,7 +34,7 @@ function Dashboard() {
                             <Route path="/drinks">
                                 <DashboardLinkContent />
                             </Route>
-                            <Route path="/cart">
+                            <Route path="/employee">
                                 <DashboardLinkContent />
                             </Route>
                             <Route path="/order">
@@ -52,4 +48,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default DashboardAdmin;

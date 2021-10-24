@@ -5,8 +5,12 @@ import DashboardLink from "./DashboardLink";
 
 import logo from "../../../../../public/images/logo-horizontal.png";
 
-function DashboardSidebar() {
-    const navLink = [
+function DashboardSidebar({ isAdmin }) {
+    const userLink = [
+        {
+            name: "dashboard",
+            icon: "tachometer-alt",
+        },
         {
             name: "foods",
             icon: "hamburger",
@@ -21,14 +25,39 @@ function DashboardSidebar() {
         },
         {
             name: "order",
-            icon: "mug-hot",
+            icon: "user-clock",
         },
     ];
 
+    const adminLink = [
+        {
+            name: "dashboard",
+            icon: "tachometer-alt",
+        },
+        {
+            name: "foods",
+            icon: "hamburger",
+        },
+        {
+            name: "drinks",
+            icon: "mug-hot",
+        },
+        {
+            name: "employee",
+            icon: "users",
+        },
+        {
+            name: "order",
+            icon: "user-clock",
+        },
+    ];
+
+    const navLink = isAdmin ? adminLink : userLink;
+
     return (
-        <ListGroup className=" p-2">
-            <ListGroup.Item className="p-0 py-5">
-                <Container>
+        <ListGroup className="bg-white min-vh-100 p-2">
+            <ListGroup.Item className="border-0 bg-transparent p-0 py-5">
+                <Container className="bg-transparent border-0">
                     <Row className=" justify-content-center mb-5">
                         <Image className="img-fluid  mb-3" src={logo} />
                     </Row>

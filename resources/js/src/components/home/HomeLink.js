@@ -1,7 +1,7 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
 
-import { upperLink, toLink } from "../../../helper";
+import { upperLink } from "../../../helper";
 
 function HomeLink({ to }) {
     const upperCaseLink = upperLink(to);

@@ -13,9 +13,11 @@ function DashboardLink({ to, icon }) {
 
     return (
         <ListGroup.Item
-            className={`side-list-item fs-4 p-3 ${match ? "active" : ""}`}
+            className={`border-0 bg-transparent side-list-item fs-4 p-3 ${
+                match ? "active" : ""
+            }`}
         >
-            <i className={`icon-link fas fa-${icon} me-3`}></i>
+            <i className={`icon-link fas fa-${icon} me-3 fa-fw `}></i>
             <Link to={link} className="side-link text-decoration-none  ">
                 {upperCaseLink}
             </Link>

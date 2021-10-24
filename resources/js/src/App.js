@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom";
 
 import Login from "./components/login/Login";
 import Register from "./components/login/Register";
-import Recover from "./components/login/Recover";
-import Dashboard from "./components/dashboard/Dashboard";
 import Home from "./components/home/Home";
+import DashboardProtectedRoute from "./components/DashboardProtectedRoute";
 import { API_URL } from "../config";
-
 import axios from "axios";
 
-axios.defaults.baseURL = { API_URL };
-axios.defaults.withCredentials = true;
+axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post["Accept"] = "application/json";
 axios.defaults.headers.post["Content-Type"] = "application/json";
+
+axios.defaults.withCredentials = true;
+axios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem("auth_token");
+    config.headers.Authorization = token ? `Bearer ${token}` : "";
+    return config;
+});
 
 function App() {
     return (
@@ -23,18 +32,25 @@ function App() {
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route exact path="/login">
-                    <Login />
+                <Route path="/login">
+                    {localStorage.getItem("auth_token") ? (
+                        <Redirect to="/dashboard" />
+                    ) : (
+                        <Login />
+                    )}
                 </Route>
                 <Route path="/register">
-                    <Register />
+                    {localStorage.getItem("auth_token") ? (
+                        <Redirect to="/dashboard" />
+                    ) : (
+                        <Register />
+                    )}
                 </Route>
-                <Route path="/recover">
-                    <Recover />
-                </Route>
-                <Route path="/dashboard">
-                    <Dashboard />
-                </Route>
+
+                <DashboardProtectedRoute
+                    basname="/dashboard"
+                    path="/dashboard"
+                />
             </Switch>
         </Router>
     );

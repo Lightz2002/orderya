@@ -30,7 +30,6 @@ function FormSection({ type }) {
                 if (res.data.status === 200) {
                     localStorage.setItem("auth_token", res.data.token);
                     localStorage.setItem("auth_name", res.data.username);
-
                     Swal.fire("Success", res.data.message, "success");
 
                     history.push("/dashboard");
@@ -56,7 +55,6 @@ function FormSection({ type }) {
                     localStorage.setItem("auth_name", res.data.username);
 
                     Swal.fire("Success", res.data.message, "success");
-
                     history.push("/dashboard");
                 } else if (res.data.status === 401) {
                     Swal.fire("Warning", res.data.message, "warning");
@@ -99,7 +97,6 @@ function FormSection({ type }) {
                             >
                                 Login
                             </Button>
-                            <FormLink to="/recover" label="Forget Password?" />
                         </Form>
 
                         <Container className="d-flex mt-5 text-center justify-content-center align-items-center">

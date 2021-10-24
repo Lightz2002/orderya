@@ -21,7 +21,7 @@ function HomeIntro() {
                         >
                             Login To Order
                         </Link>
-                    </Button>{" "}
+                    </Button>
                 </Col>
                 <Col md={7} className="home-heroes-container">
                     <Image className="img-fluid" src={heroes} />

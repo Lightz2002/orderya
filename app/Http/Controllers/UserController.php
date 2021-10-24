@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
+/* 
+    Pembuat Login & Register: Ryan & Ricky
+*/
 
 class UserController extends Controller
 {
@@ -58,16 +63,22 @@ class UserController extends Controller
         ]);
 
        } else {
-        
+            
+
             $user = User::where('email', $req->email)->first();
 
             if (! $user || ! Hash::check($req->password, $user->password)) {
                 return response()->json([
                     'status'=> 401,
-                    'message' => 'Invalid Credentials'
+                    'message' => 'Email or password is incorrect'
                 ]);
             } else {
-                $token = $user ->createToken($user->email."_token")->plainTextToken;
+                if($user->is_admin == 1) {
+                    $token = $user->createToken($user->email."_AdminToken", ['server:admin'])->plainTextToken;
+                } else {
+
+                    $token = $user ->createToken($user->email."_token", [''])->plainTextToken;
+                }
             
                 return response()->json([
                     'status'=>200,
@@ -78,6 +89,14 @@ class UserController extends Controller
             } 
        }
 
-       
-   }
+    }
+    
+    public function logout () {
+        auth()->user()->tokens()->delete();
+        
+        return response()->json([
+            'status'=> 200,
+            'message' => 'Logged out successfully'
+        ]);
+    }
 }
