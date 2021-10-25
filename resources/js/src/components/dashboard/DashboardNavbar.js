@@ -27,7 +27,7 @@ function DashboardNavbar() {
 
     return (
         <Navbar bg="light" variant="light" className=" p-0 mb-5">
-            <Container className="p-0">
+            <Container className="p-0 ">
                 <Nav className="w-100 d-flex align-items-center justify-content-end">
                     <Form className="align-self-center p-0 rounded-0">
                         <Form.Group controlId="formBasicSearch ">

@@ -14,11 +14,11 @@ function Dashboard() {
     return (
         <Router basename="dashboard">
             <Container fluid className="p-0 vw-100">
-                <Row className="position-relative min-vh-100 w-100 p-0 m-0">
+                <Row className=" position-relative min-vh-100 w-100 p-0 m-0">
                     <Col
                         xs={3}
                         lg={2}
-                        className="position-fixed top-0 bottom-0 p-0 mw-100"
+                        className="position-fixed top-0 bottom-0 p-0 sidebar"
                     >
                         <DashboardSidebar isAdmin={false} />
                     </Col>

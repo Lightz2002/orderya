@@ -13,12 +13,12 @@ function DashboardLink({ to, icon }) {
 
     return (
         <ListGroup.Item
-            className={`border-0 bg-transparent side-list-item fs-4 p-3 ${
+            className={`border-0 bg-transparent side-list-item  p-3 ${
                 match ? "active" : ""
             }`}
         >
-            <i className={`icon-link fas fa-${icon} me-3 fa-fw `}></i>
-            <Link to={link} className="side-link text-decoration-none  ">
+            <i className={`icon-link fas fa-${icon} me-3 fs-3 fa-fw `}></i>
+            <Link to={link} className="fs-3 side-link text-decoration-none  ">
                 {upperCaseLink}
             </Link>
         </ListGroup.Item>
