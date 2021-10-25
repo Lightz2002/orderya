@@ -14,7 +14,7 @@ function DashboardAdmin() {
                     <Col
                         xs={3}
                         lg={2}
-                        className="position-fixed top-0 bottom-0 p-0 mw-100"
+                        className="position-fixed top-0 bottom-0 p-0 sidebar"
                     >
                         <DashboardSidebar isAdmin={true} />
                     </Col>
