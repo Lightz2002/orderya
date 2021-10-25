@@ -68,6 +68,7 @@ function DashboardProtectedRoute({ ...restOfProps }) {
             render={() => {
                 if (isAuthenticated) {
                     if (isAuthorized) {
+                        console.log("admin");
                         return <DashboardAdmin />;
                     } else {
                         return <Dashboard />;
