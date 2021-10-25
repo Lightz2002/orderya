@@ -7,7 +7,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import DashboardLinkContent from "./DashboardLinkContent";
 
 /* 
-Author: Ryan & Vinson
+Author: Ryan (2031166) & Vinson (2031162)
 */
 
 function Dashboard() {

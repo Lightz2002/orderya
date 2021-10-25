@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 /* 
-    Pembuat Login & Register: Ryan & Ricky
+    Pembuat Login & Register: Ryan (2031166) & Ricky (2031162)
 */
 
 class UserController extends Controller

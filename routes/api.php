@@ -17,9 +17,9 @@ use App\Http\Controllers\UserController;
  */
 
 /* 
-    Author Login & Register: Ryan & Ricky
-    Author Home: Jensen & Nicholas
-    Author Dashboard: Ryan & Vinson
+    Author Login & Register: Ryan (2031166) & Ricky  (2031164)
+    Author Home: Jensen (2031158) & Nicholas (2031087)
+    Author Dashboard: Ryan (2031166) & Vinson (2031162)
 */
 
 Route::post('/register', [UserController::class, 'register']);

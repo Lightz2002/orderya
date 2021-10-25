@@ -1,12 +1,12 @@
 import React from "react";
-import { Container, Row, Col, Image, Button } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import HomeNavbar from "./HomeNavbar";
 import HomeIntro from "./HomeIntro";
 import HomeAbout from "./HomeAbout";
 import HomeTeams from "./HomeTeams";
 
 /* 
-Author: Nicholas & jensen
+Author: Nicholas (2031087) & jensen (2031158)
 */
 
 function Home() {

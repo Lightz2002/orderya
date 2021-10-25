@@ -12,27 +12,27 @@ function HomeTeams() {
     const teams = [
         {
             src: jensen,
-            title: "Jensen Tanedy-20",
+            title: "Jensen Tanedy - 2031158",
             text: "Jensen helps Vinson With the Cooking",
         },
         {
             src: ricky,
-            title: "Ricky",
+            title: "Ricky - 2031164",
             text: "Ricky is the one who take care of customer service",
         },
         {
             src: nicholas,
-            title: "Nicholas Jeonanto",
+            title: "Nicholas Jeonanto - 2031087",
             text: "Nicholas manage the restaurant",
         },
         {
             src: vinson,
-            title: "Vinson",
+            title: "Vinson - 2031162",
             text: "Vinson make sure customer have deliceous foods to eat",
         },
         {
             src: ryan,
-            title: "Ryan Kenidy",
+            title: "Ryan Kenidy-2031166",
             text: "Ryan plays an important role in serving beverages",
         },
     ];
