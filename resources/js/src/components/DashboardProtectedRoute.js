@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Route, Redirect, useHistory } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import Dashboard from "./dashboard/Dashboard";
-import DashboardAdmin from "./dashboard/DashboardAdmin";
+import Dashboard from "./dashboard/user/Dashboard";
+import DashboardAdmin from "./dashboard/admin/DashboardAdmin";
 import Swal from "sweetalert2";
 import axios from "axios";
 import ReactLoading from "react-loading";
 
 function DashboardProtectedRoute({ ...restOfProps }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isAuthorized, setisAuthorized] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
     const [loading, setLoading] = useState(true);
     const history = useHistory();
 
@@ -23,13 +23,13 @@ function DashboardProtectedRoute({ ...restOfProps }) {
 
         axios.get("/api/checkingAuthorization").then((res) => {
             if (res.data.status === 200) {
-                setisAuthorized(true);
+                setIsAuthorized(true);
             }
             setLoading(false);
         });
 
         return () => {
-            setisAuthorized(false);
+            setIsAuthorized(false);
             setIsAuthenticated(false);
         };
     }, []);
@@ -68,7 +68,6 @@ function DashboardProtectedRoute({ ...restOfProps }) {
             render={() => {
                 if (isAuthenticated) {
                     if (isAuthorized) {
-                        console.log("admin");
                         return <DashboardAdmin />;
                     } else {
                         return <Dashboard />;

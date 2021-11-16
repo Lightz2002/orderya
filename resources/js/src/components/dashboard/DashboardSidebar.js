@@ -35,6 +35,10 @@ function DashboardSidebar({ isAdmin }) {
             icon: "tachometer-alt",
         },
         {
+            name: "category",
+            icon: "cubes",
+        },
+        {
             name: "foods",
             icon: "hamburger",
         },
@@ -57,7 +61,7 @@ function DashboardSidebar({ isAdmin }) {
     return (
         <ListGroup className="bg-white min-vh-100 p-2">
             <ListGroup.Item className="border-0 bg-transparent p-0 py-5">
-                <Container className="bg-transparent border-0">
+                <Container className="bg-transparent border-0 p-0">
                     <Row className=" justify-content-center mb-5">
                         <Image className="img-fluid  mb-3" src={logo} />
                     </Row>
@@ -67,6 +71,9 @@ function DashboardSidebar({ isAdmin }) {
                                 key={uuidv4()}
                                 icon={link.icon}
                                 to={link.name}
+                                activeOnlyWhenExact={
+                                    link.name === "dashboard" ? true : false
+                                }
                             />
                         ))}
                     </Row>

@@ -2,7 +2,7 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 
-function FormControl({ type, label, name, setType, errors }) {
+function FormControl({ type, label, name, handleChange, errors, value }) {
     return (
         <>
             <Form.Label className="fs-3 ">{label}</Form.Label>
@@ -10,7 +10,8 @@ function FormControl({ type, label, name, setType, errors }) {
             <Form.Control
                 name={name}
                 type={type}
-                onChange={(e) => setType(e.target.value)}
+                onChange={handleChange}
+                value={value}
                 className="text-secondary  fs-4"
             />
 

@@ -7,22 +7,65 @@ import Swal from "sweetalert2";
 import { useHistory } from "react-router";
 
 function FormSection({ type }) {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [password_confirmation, setPasswordConfirmation] = useState("");
     const [errorList, setErrorList] = useState([]);
 
+    const [input, setInput] = useState({
+        username: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+    });
+
+    const handleInput = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value });
+    };
+
     const history = useHistory();
+
+    const loginInputs = [
+        {
+            id: "formBasicEmail",
+            type: "email",
+            label: "Email",
+        },
+        {
+            id: "formBasicPassword",
+            type: "password",
+            label: "Password",
+        },
+    ];
+
+    const registerInputs = [
+        {
+            id: "formBasicUsername",
+            type: "text",
+            label: "Username",
+        },
+        {
+            id: "formBasicEmail",
+            type: "email",
+            label: "Email",
+        },
+        {
+            id: "formBasicPassword",
+            type: "password",
+            label: "Password",
+        },
+        {
+            id: "formBasicConfirmPassword",
+            type: "password",
+            label: "Confirm Password",
+        },
+    ];
 
     const register = (e) => {
         e.preventDefault();
 
         const data = {
-            username,
-            email,
-            password,
-            password_confirmation,
+            username: input.username,
+            email: input.email,
+            password: input.password,
+            password_confirmation: input.password_confirmation,
         };
 
         axios.get("/sanctum/csrf-cookie").then((response) => {
@@ -44,8 +87,8 @@ function FormSection({ type }) {
         e.preventDefault();
 
         const data = {
-            email,
-            password,
+            email: input.email,
+            password: input.password,
         };
 
         axios.get("/sanctum/csrf-cookie").then((response) => {
@@ -72,24 +115,24 @@ function FormSection({ type }) {
                 {type === "Login" ? (
                     <>
                         <Form method="post" onSubmit={login}>
-                            <FormGroup
-                                id="formBasicEmail"
-                                type="email"
-                                label="Email"
-                                name="email"
-                                value={email}
-                                setType={setEmail}
-                                errors={errorList.email}
-                            />
-                            <FormGroup
-                                id="formBasicPassword"
-                                type="password"
-                                label="Password"
-                                name="password"
-                                value={password}
-                                setType={setPassword}
-                                errors={errorList.password}
-                            />
+                            {loginInputs.map((loginInput) => (
+                                <FormGroup
+                                    key={loginInput.id}
+                                    id={loginInput.id}
+                                    type={loginInput.type}
+                                    label={loginInput.label}
+                                    handleChange={handleInput}
+                                    errors={
+                                        errorList[
+                                            loginInput.label.toLowerCase()
+                                        ]
+                                    }
+                                    value={
+                                        input[loginInput.label.toLowerCase()]
+                                    }
+                                />
+                            ))}
+
                             <Button
                                 variant="primary"
                                 type="submit"
@@ -110,42 +153,26 @@ function FormSection({ type }) {
                 ) : (
                     <>
                         <Form method="post" onSubmit={register}>
-                            <FormGroup
-                                id="formBasicEmail"
-                                type="email"
-                                label="Email"
-                                name="text"
-                                value={email}
-                                setType={setEmail}
-                                errors={errorList.email}
-                            />
-                            <FormGroup
-                                id="formBasicUsername"
-                                type="text"
-                                label="Username"
-                                name="username"
-                                value={username}
-                                setType={setUsername}
-                                errors={errorList.username}
-                            />
-                            <FormGroup
-                                id="formBasicPassword"
-                                type="password"
-                                label="Password"
-                                name="password"
-                                value={password}
-                                setType={setPassword}
-                                errors={errorList.password}
-                            />
-                            <FormGroup
-                                id="formBasicConfirmPassword"
-                                type="password"
-                                label="Confirm Password"
-                                name="password_confirmation"
-                                value={password_confirmation}
-                                setType={setPasswordConfirmation}
-                                errors={errorList.password_confirmation}
-                            />
+                            {registerInputs.map((registerInput) => (
+                                <FormGroup
+                                    key={registerInput.id}
+                                    id={registerInput.id}
+                                    type={registerInput.type}
+                                    label={registerInput.label}
+                                    handleChange={handleInput}
+                                    errors={
+                                        errorList[
+                                            registerInput.label ===
+                                            "Confirm Password"
+                                                ? "password_confirmation"
+                                                : registerInput.label.toLowerCase()
+                                        ]
+                                    }
+                                    value={
+                                        input[registerInput.label.toLowerCase()]
+                                    }
+                                />
+                            ))}
                             <Button
                                 variant="primary"
                                 type="submit"

@@ -7,7 +7,7 @@ function HomeLink({ to }) {
     const upperCaseLink = upperLink(to);
 
     return (
-        <Nav.Link href={`#${to}`} className="fs-3 text-light">
+        <Nav.Link href={`#${to}`} className="fs-3 link text-light">
             {upperCaseLink}
         </Nav.Link>
     );

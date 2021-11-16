@@ -1,27 +1,35 @@
 import React from "react";
-import { ListGroup } from "react-bootstrap";
 import { Link, useRouteMatch } from "react-router-dom";
 import { upperLink, toLink } from "../../../helper";
 
-function DashboardLink({ to, icon }) {
+function DashboardLink({ to, activeOnlyWhenExact, icon }) {
+    const checkPath = () => {
+        if (to === "dashboard") {
+            return "/";
+        }
+
+        return "/" + to;
+    };
+
     let match = useRouteMatch({
-        path: to,
+        path: checkPath(),
+        exact: activeOnlyWhenExact,
     });
 
     const upperCaseLink = upperLink(to);
     const link = toLink(to);
 
     return (
-        <ListGroup.Item
-            className={`border-0 bg-transparent side-list-item  p-3 ${
+        <Link
+            className={`fs-3  link text-decoration-none  d-flex align-items-baseline side-list-item ${
                 match ? "active" : ""
             }`}
+            to={link}
         >
-            <i className={`icon-link fas fa-${icon} me-3 fs-3 fa-fw `}></i>
-            <Link to={link} className="fs-3 side-link text-decoration-none  ">
-                {upperCaseLink}
-            </Link>
-        </ListGroup.Item>
+            <i className={`icon-link  fas fa-${icon} me-4 fs-3 fa-fw `}></i>
+
+            {upperCaseLink}
+        </Link>
     );
 }
 

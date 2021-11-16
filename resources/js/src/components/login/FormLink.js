@@ -8,7 +8,9 @@ function FormLink({ label, to }) {
 
     return (
         <div className={`link-primary fs-5 ${match ? "active" : ""}`}>
-            <Link to={to}>{label}</Link>
+            <Link to={to} className="link">
+                {label}
+            </Link>
         </div>
     );
 }

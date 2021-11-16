@@ -14,14 +14,14 @@ function HomeIntro() {
                         with 50 menus of foods and drinks, customers can order
                         it throught this website by logging in
                     </p>
-                    <Button variant="primary" className="px-4 fs-4">
-                        <Link
-                            to="/login"
-                            className="text-light text-decoration-none"
-                        >
+                    <Link
+                        to="/login"
+                        className="text-light text-decoration-none"
+                    >
+                        <Button variant="primary" className="px-4 fs-4">
                             Login To Order
-                        </Link>
-                    </Button>
+                        </Button>
+                    </Link>
                 </Col>
                 <Col md={7} className="home-heroes-container">
                     <Image className="img-fluid" src={heroes} />

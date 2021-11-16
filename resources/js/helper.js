@@ -9,3 +9,8 @@ export const toLink = (url) => {
         return "/" + url;
     }
 };
+
+export const convertNumToRp = (num) => {
+    const rupiah = "Rp " + num.toLocaleString("en-us");
+    return rupiah;
+};

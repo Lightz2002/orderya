@@ -4,6 +4,7 @@
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
+$dark-primary: #900b05;
 $primary: #cd1007;
 $light-primary: #fae7e6;
 $black: #140201;
@@ -20,6 +21,14 @@ html {
 
 .login-col-1 {
     background: url("../../public/images/Orderya.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.link {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
 }
 
 .swal2-popup {
@@ -31,24 +40,29 @@ html {
     font-size: 3rem;
 }
 
-.side-list-item:hover {
-    background: $light-primary;
-    cursor: pointer;
-    border-left: 0.4rem solid $primary;
-}
-
 .side-list-item {
     position: relative;
+    border: 0;
+    padding: 1rem 0 1rem 3rem !important;
+    border-left: 0.8rem solid transparent;
 }
 
-.side-link,
+.side-list-item:hover,
+.active {
+    background: $light-primary;
+    cursor: pointer;
+    border-left-color: $dark-primary;
+}
+
+.side-list-item,
 .icon-link {
     color: $black;
 }
 
-.side-list-item:hover .side-link,
-.side-list-item:hover .icon-link {
-    color: $primary;
+.side-list-item:hover i,
+.active,
+.active i {
+    color: $dark-primary !important;
 }
 
 .home-navbar {
@@ -109,6 +123,19 @@ html {
     .logout-button {
         width: 10%;
     }
+}
+
+.table-striped > tbody > tr:nth-child(even) > td,
+.table-striped > tbody > tr:nth-child(even) > th {
+    background-color: white; // Choose your own color here
+}
+
+.btn-back {
+    width: 15rem !important;
+}
+
+.table-control {
+    width: 10rem !important;
 }
 
 @media only screen and (max-width: 768px) {

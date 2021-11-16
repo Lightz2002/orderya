@@ -1,10 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import DashboardNavbar from "./DashboardNavbar";
-import DashboardSidebar from "./DashboardSidebar";
-import DashboardContent from "./DashboardContent";
+import DashboardNavbar from "../DashboardNavbar";
+import DashboardSidebar from "../DashboardSidebar";
 import { Container, Row, Col } from "react-bootstrap";
-import DashboardLinkContent from "./DashboardLinkContent";
 
 /* 
 Author: Ryan (2031166) & Vinson (2031162)
@@ -32,18 +30,10 @@ function Dashboard() {
                             <Route exact path="/">
                                 <h1>This Is User Dashboard</h1>
                             </Route>
-                            <Route path="/foods">
-                                <DashboardLinkContent />
-                            </Route>
-                            <Route path="/drinks">
-                                <DashboardLinkContent />
-                            </Route>
-                            <Route path="/cart">
-                                <DashboardLinkContent />
-                            </Route>
-                            <Route path="/order">
-                                <DashboardLinkContent />
-                            </Route>
+                            <Route path="/foods"></Route>
+                            <Route path="/drinks"></Route>
+                            <Route path="/cart"></Route>
+                            <Route path="/order"></Route>
                         </Switch>
                     </Col>
                 </Row>
