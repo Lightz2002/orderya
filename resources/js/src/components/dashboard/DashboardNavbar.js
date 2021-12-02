@@ -14,6 +14,7 @@ function DashboardNavbar() {
             if (res.data.status === 200) {
                 localStorage.removeItem("auth_token");
                 localStorage.removeItem("auth_name");
+                localStorage.removeItem("authorized");
                 Swal.fire("Success", res.data.message, "success").then(() => {
                     setTimeout(() => {
                         window.location.reload(false);
@@ -28,15 +29,6 @@ function DashboardNavbar() {
         <Navbar bg="light" variant="light" className=" p-0 mb-5">
             <Container className="p-0 ">
                 <Nav className="w-100 d-flex align-items-center justify-content-end">
-                    <Form className="align-self-center p-0 rounded-0">
-                        <Form.Group controlId="formBasicSearch ">
-                            <Form.Control
-                                type="text"
-                                placeholder="Search for something"
-                                className="rounded-0 p-4 fs-4"
-                            />
-                        </Form.Group>
-                    </Form>
                     <Dropdown>
                         <Dropdown.Toggle
                             id="dropdown-basic"

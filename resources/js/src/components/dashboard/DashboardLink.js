@@ -2,18 +2,28 @@ import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { upperLink, toLink } from "../../../helper";
 
-function DashboardLink({ to, activeOnlyWhenExact, icon }) {
-    const checkPath = () => {
-        if (to === "dashboard") {
-            return "/";
+function DashboardLink({ to, activeOnlyWhenExact, icon, isAdmin }) {
+    const checkPath = (isAdmin) => {
+        if (isAdmin) {
+            if (to === "dashboard") {
+                return ["/"];
+            }
+            return [`/${to}`, `/${to}/:slug`, `/${to}/:slug/:id`];
+        } else {
+            if (to === "dashboard") {
+                return [
+                    "/",
+                    "/menu/:type/:category",
+                    "/menu/:type/:category/:id",
+                ];
+            }
+            return [`/${to}`, `/${to}/:slug`, `/${to}/:slug/:id`];
         }
-
-        return "/" + to;
     };
 
     let match = useRouteMatch({
-        path: checkPath(),
-        exact: activeOnlyWhenExact,
+        path: checkPath(isAdmin),
+        exact: true,
     });
 
     const upperCaseLink = upperLink(to);

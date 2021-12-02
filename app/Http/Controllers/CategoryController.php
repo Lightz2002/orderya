@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Food;
+use App\Models\Drink;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -53,6 +56,7 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(),[
             'name'=> 'required|unique:categories,name',
             'description'=> 'nullable',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'type'=>'required'
         ]);
 
@@ -68,6 +72,16 @@ class CategoryController extends Controller
             $category->name = $request->input('name');
             $category->description = $request->input('description');
             $category->type = $request->input('type');
+
+            if($request->hasFile('image')) {
+             
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $file->move('uploads/categories/',$filename);
+                $category->image = "uploads/categories/".$filename;
+            }
+
             $category->save();
     
             return response()->json([
@@ -141,6 +155,19 @@ class CategoryController extends Controller
                 $category->name = $request->input('name');
                 $category->description = $request->input('description');
                 $category->type = $request->input('type');
+
+                if($request->hasFile('image')) {              
+                    $path = $category->image;
+                    if(File::exists($path)) {
+                        File::delete($path);
+                    }
+                    $file = $request->file('image');
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = time() . '.' . $extension;
+                    $file->move('uploads/categories/',$filename);
+                    $category->image = "uploads/categories/".$filename;
+                }
+
                 $category->update();
         
                 return response()->json([
@@ -166,8 +193,14 @@ class CategoryController extends Controller
     public function destroy(Category $category, $id)
     {
         $category = Category::find($id);
+        $food = Food::where('category_id', $category->id)->get();
+        $drink = Drink::where('category_id', $category->id)->get();
+
         if($category) {
+            $food->each->delete();
+            $drink->each->delete();
             $category->delete();
+
             return response()->json([
                 'status'=> 200,
                 'message'=> 'Category Deleted Successfully'

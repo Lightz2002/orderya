@@ -18,7 +18,7 @@ function HomeNavbar() {
                 localStorage.removeItem("auth_token");
                 localStorage.removeItem("auth_name");
                 Swal.fire("Success", res.data.message, "success").then(() => {
-                    window.location.reload(false);
+                    window.location.reload();
                 });
             }
         });

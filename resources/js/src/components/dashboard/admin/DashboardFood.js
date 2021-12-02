@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Image } from "react-bootstrap";
+import { Container, Row, Image, Button } from "react-bootstrap";
 import axios from "axios";
 import ReactLoading from "react-loading";
+import { Link, useRouteMatch } from "react-router-dom";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
 
-import DashboardTable from "./DashboardTable";
+import DashboardTable from "../../small-component/DashboardTable";
 import DashboardAdminHeader from "./DashboardAdminHeader";
 import TableControl from "./TableControl";
 import { API_URL } from "../../../../config";
 import { convertNumToRp } from "../../../../helper";
+import generatePDF from "../../../services/reportGenerator";
 
 function DashboardFood() {
     const tableHeader = [
@@ -22,9 +24,11 @@ function DashboardFood() {
     ];
     const [foodList, setFoodList] = useState([]);
     const [loading, setLoading] = useState(true);
+    let { path, url } = useRouteMatch();
 
     const deleteFood = (e, id) => {
         e.preventDefault();
+        console.log(foodList);
 
         const btnDelete = e.currentTarget;
 
@@ -62,6 +66,9 @@ function DashboardFood() {
             }
             setLoading(false);
         });
+        return () => {
+            setLoading(false);
+        };
     }, []);
 
     let row = "";
@@ -80,7 +87,10 @@ function DashboardFood() {
         row = foodList.map((food) => {
             return (
                 <tr key={uuidv4()}>
-                    <td className="align-middle p-4">{food.category.name}</td>
+                    <td className="align-middle p-4">
+                        {food.category?.name ||
+                            "This food category has been deleted"}
+                    </td>
                     <td className="align-middle p-4">{food.name}</td>
                     <td className="align-middle p-4">{food.quantity}</td>
                     <td className="align-middle p-4">
@@ -108,7 +118,34 @@ function DashboardFood() {
         <Container fluid>
             <Row>
                 <DashboardAdminHeader title="Food" />
-                <DashboardTable header={tableHeader} body={row} />
+                <Button
+                    variant="outline-secondary"
+                    className="d-inline-flex justify-content-evenly align-items-baseline btn-print  mt-3 fs-4 p-3 mb-0 ms-auto "
+                    onClick={() =>
+                        generatePDF(
+                            "All Food Menus",
+                            tableHeader,
+                            foodList,
+                            [
+                                "category",
+                                "name",
+                                "quantity",
+                                "price",
+                                "serving_time",
+                                "image",
+                            ],
+                            "name"
+                        )
+                    }
+                >
+                    <i className="fas fa-print fs-3"></i>
+                    Print
+                </Button>
+                <DashboardTable
+                    header={tableHeader}
+                    body={row}
+                    tableControl={true}
+                />
             </Row>
         </Container>
     );

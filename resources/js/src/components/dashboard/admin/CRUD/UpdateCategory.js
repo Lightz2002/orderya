@@ -4,12 +4,13 @@ import { Container, Row, Button, Form } from "react-bootstrap";
 import { useParams, useHistory } from "react-router-dom";
 import ReactLoading from "react-loading";
 import Swal from "sweetalert2";
-import FormGroup from "./FormGroup";
-import BackButton from "./BackButton";
+import FormGroup from "../../../small-component/FormGroup";
+import BackButton from "../../../small-component/BackButton";
 
 function UpdateCategory() {
     const history = useHistory();
     const [category, setCategory] = useState([]);
+    const [picture, setPicture] = useState([]);
     const [errorList, setErrorList] = useState([]);
     const [loading, setLoading] = useState(true);
     let { id } = useParams();
@@ -38,11 +39,24 @@ function UpdateCategory() {
             placeholder: "Enter Description",
             selectOptions: [],
         },
+        {
+            id: "formBasicImage",
+            label: "Image",
+            name: "image",
+            type: "file",
+            placeholder: "",
+            selectOptions: [],
+        },
     ];
 
     useEffect(() => {
         axios.get(`/api/updateCategory/${id}`).then((res) => {
             if (res.data.status === 200) {
+                for (let prop in res.data.category) {
+                    if (res.data.category[prop] === "null") {
+                        res.data.category[prop] = "";
+                    }
+                }
                 setCategory(res.data.category);
             } else if (res.data.status === 404) {
                 Swal.fire("Error", res.data.message, "error");
@@ -59,9 +73,13 @@ function UpdateCategory() {
     const updateCategory = (e) => {
         e.preventDefault();
 
-        const data = category;
+        const formData = new FormData();
+        formData.append("image", picture.image);
+        formData.append("name", category.name);
+        formData.append("description", category.description);
+        formData.append("type", category.type);
 
-        axios.put(`/api/updateCategory/${id}`, data).then((res) => {
+        axios.post(`/api/updateCategory/${id}`, formData).then((res) => {
             if (res.data.status === 200) {
                 Swal.fire("Updated", res.data.message, "success");
                 setErrorList("");
@@ -83,6 +101,10 @@ function UpdateCategory() {
         setCategory({ ...category, [e.target.name]: e.target.value });
     };
 
+    const handleImage = (e) => {
+        setPicture({ image: e.target.files[0] });
+    };
+
     if (loading) {
         return (
             <Container className="mt-5 d-flex align-content-center align-items-center justify-content-center">
@@ -99,7 +121,7 @@ function UpdateCategory() {
     return (
         <Container>
             <Row>
-                <BackButton url="/category" />
+                <BackButton text="View Category" url="/category" />
                 <h1 className="fs-1 fw-bold mb-3">Update Category</h1>
 
                 <Container fluid>
@@ -113,10 +135,15 @@ function UpdateCategory() {
                                     name={input.name}
                                     type={input.type}
                                     placeholder={input.placeholder}
-                                    handleChange={handleInput}
+                                    handleChange={
+                                        input.type === "file"
+                                            ? handleImage
+                                            : handleInput
+                                    }
                                     value={category[input.name]}
                                     errors={errorList[input.name]}
                                     selectOptions={input.selectOptions}
+                                    marginSize={5}
                                 />
                             ))}
                             <Button

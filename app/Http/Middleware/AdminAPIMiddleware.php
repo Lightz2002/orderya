@@ -22,8 +22,9 @@ class AdminAPIMiddleware
                 return $next($request);
             } else {
                 return response()->json([
+                    'status' => 403,
                     'message' => 'Access denied! Only admin  are allowed',
-                ], 403);
+                ]);
             }
         } else {
             return response()->json([

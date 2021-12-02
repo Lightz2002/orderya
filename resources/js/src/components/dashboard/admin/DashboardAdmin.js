@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 import DashboardNavbar from "../DashboardNavbar";
 import DashboardSidebar from "../DashboardSidebar";
+import OrderProvider from "../context/OrderContext";
 
 import adminRoutes from "../../routes/adminRoutes";
 import RouteWithSubRoutes from "../../routes/RouteWithSubRoutes";
@@ -26,15 +27,13 @@ function DashboardAdmin() {
                         className="dashboard-col-2 d-flex ps-5 flex-column"
                     >
                         <DashboardNavbar />
-
-                        <Switch>
-                            <Route exact path="/">
-                                <h1>This is admin dashboard</h1>
-                            </Route>
-                            {adminRoutes.map((route, i) => (
-                                <RouteWithSubRoutes key={i} {...route} />
-                            ))}
-                        </Switch>
+                        <OrderProvider>
+                            <Switch>
+                                {adminRoutes.map((route, i) => (
+                                    <RouteWithSubRoutes key={i} {...route} />
+                                ))}
+                            </Switch>
+                        </OrderProvider>
                     </Col>
                 </Row>
             </Container>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Container, Row } from "react-bootstrap";
 
-function DashboardTable({ header, body }) {
+function DashboardTable({ header, body, tableControl }) {
     return (
         <Container className="p-0">
             <Row>
@@ -13,7 +13,7 @@ function DashboardTable({ header, body }) {
                                     {head}
                                 </th>
                             ))}
-                            <th className="p-4">Control</th>
+                            {tableControl && <th className="p-4">Control</th>}
                         </tr>
                     </thead>
                     <tbody>{body}</tbody>

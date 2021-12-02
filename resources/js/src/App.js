@@ -48,7 +48,7 @@ function App() {
                 </Route>
 
                 <DashboardProtectedRoute
-                    basname="/dashboard"
+                    basename="/dashboard"
                     path="/dashboard"
                 />
             </Switch>

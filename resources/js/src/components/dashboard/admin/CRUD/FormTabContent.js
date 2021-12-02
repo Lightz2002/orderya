@@ -1,5 +1,5 @@
 import React from "react";
-import FormGroup from "./FormGroup";
+import FormGroup from "../../../small-component/FormGroup";
 
 function FormTabContent({
     component,
@@ -27,6 +27,7 @@ function FormTabContent({
                     selectOptions={selectOptions}
                     categoryList={true}
                     imageUrl={input.name === "image" ? state[input.name] : null}
+                    marginSize={5}
                 />
             ))}
         </>

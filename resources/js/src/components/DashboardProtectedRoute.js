@@ -17,15 +17,13 @@ function DashboardProtectedRoute({ ...restOfProps }) {
         axios.get("/api/checkingAuthentication").then((res) => {
             if (res.data.status === 200) {
                 setIsAuthenticated(true);
+                axios.get("/api/checkingAuthorization").then((res) => {
+                    if (res.data.status === 200) {
+                        setIsAuthorized(true);
+                    }
+                    setLoading(false);
+                });
             }
-            setLoading(false);
-        });
-
-        axios.get("/api/checkingAuthorization").then((res) => {
-            if (res.data.status === 200) {
-                setIsAuthorized(true);
-            }
-            setLoading(false);
         });
 
         return () => {
@@ -40,7 +38,7 @@ function DashboardProtectedRoute({ ...restOfProps }) {
             if (err.response.status === 401) {
                 Swal.fire(
                     "Unauthenticated",
-                    err.response.data.message,
+                    "Login to access dashboard",
                     "warning"
                 );
                 history.push("/");
@@ -67,13 +65,9 @@ function DashboardProtectedRoute({ ...restOfProps }) {
             {...restOfProps}
             render={() => {
                 if (isAuthenticated) {
-                    if (isAuthorized) {
-                        return <DashboardAdmin />;
-                    } else {
-                        return <Dashboard />;
-                    }
+                    return isAuthorized ? <DashboardAdmin /> : <Dashboard />;
                 } else {
-                    <Redirect to="/login" />;
+                    return <Redirect to="/login" />;
                 }
             }}
         />

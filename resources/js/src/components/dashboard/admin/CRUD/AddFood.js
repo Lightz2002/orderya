@@ -3,7 +3,8 @@ import { Container, Row, Form, Button, Tabs, Tab } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-import BackButton from "./BackButton";
+import BackButton from "../../../small-component/BackButton";
+
 import FormTabContent from "./FormTabContent";
 
 function AddFood() {
@@ -111,6 +112,7 @@ function AddFood() {
                 setCategoryList(res.data.category);
             }
         });
+        console.log(categoryList);
     }, []);
 
     const submitFood = (e) => {
@@ -161,7 +163,7 @@ function AddFood() {
     return (
         <Container>
             <Row>
-                <BackButton url="/foods" />
+                <BackButton text="View Foods" url="/foods" />
                 <h1 className="fs-1 fw-bold mb-3">Add Food</h1>
                 <Container fluid>
                     <Row className="w-50 pb-4">

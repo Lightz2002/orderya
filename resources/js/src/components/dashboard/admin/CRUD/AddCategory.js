@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Container, Row, Form, Button } from "react-bootstrap";
-import FormGroup from "./FormGroup";
+import FormGroup from "../../../small-component/FormGroup";
 import Swal from "sweetalert2";
 import axios from "axios";
-import BackButton from "./BackButton";
+import BackButton from "../../../small-component/BackButton";
 
 function AddCategory() {
     const categoryInput = [
@@ -29,6 +29,13 @@ function AddCategory() {
             type: "textarea",
             placeholder: "Enter Description",
         },
+        {
+            id: "formBasicImage",
+            label: "Image",
+            name: "image",
+            type: "file",
+            placeholder: "",
+        },
     ];
 
     const [category, setCategory] = useState({
@@ -38,21 +45,26 @@ function AddCategory() {
     });
 
     const [errorList, setErrorList] = useState([]);
+    const [picture, setPicture] = useState([]);
 
     const handleInput = (e) => {
         setCategory({ ...category, [e.target.name]: e.target.value });
     };
 
+    const handleImage = (e) => {
+        setPicture({ image: e.target.files[0] });
+    };
+
     const submitCategory = (e) => {
         e.preventDefault();
 
-        const data = {
-            name: category.name,
-            description: category.description,
-            type: category.type,
-        };
+        const formData = new FormData();
+        formData.append("image", picture.image);
+        formData.append("name", category.name);
+        formData.append("description", category.description);
+        formData.append("type", category.type);
 
-        axios.post(`/api/addCategory`, data).then((res) => {
+        axios.post(`/api/addCategory`, formData).then((res) => {
             if (res.data.status === 200) {
                 Swal.fire("Added", res.data.message, "success");
                 setCategory({
@@ -71,7 +83,7 @@ function AddCategory() {
     return (
         <Container>
             <Row>
-                <BackButton url="/category" />
+                <BackButton text="View Category" url="/category" />
                 <h1 className="fs-1 fw-bold mb-3">Add Category</h1>
 
                 <Container fluid>
@@ -89,10 +101,15 @@ function AddCategory() {
                                     name={input.name}
                                     type={input.type}
                                     placeholder={input.placeholder}
-                                    handleChange={handleInput}
+                                    handleChange={
+                                        input.type === "file"
+                                            ? handleImage
+                                            : handleInput
+                                    }
                                     value={category[input.name]}
                                     errors={errorList[input.name]}
                                     selectOptions={input.selectOptions || []}
+                                    marginSize={5}
                                 />
                             ))}
                             <Button

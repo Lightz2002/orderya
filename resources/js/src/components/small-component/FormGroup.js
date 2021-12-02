@@ -1,7 +1,6 @@
 import React from "react";
-import { Form, Image } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
-import { API_URL } from "../../../../../config";
 
 function FormGroup({
     id,
@@ -14,7 +13,13 @@ function FormGroup({
     errors,
     selectOptions,
     categoryList,
-    imageUrl,
+    fontSize,
+    paddingXSize,
+    paddingYSize,
+    marginSize,
+    display,
+    hideLabel,
+    selectDefault,
 }) {
     const accept = () => {
         if (type === "file") {
@@ -23,6 +28,14 @@ function FormGroup({
             return "";
         }
     };
+
+    const formattedFontSize = !fontSize ? 3 : fontSize;
+    const formattedPaddingXSize = !paddingXSize ? 3 : paddingXSize;
+    const formattedPaddingYSize = !paddingYSize ? 3 : paddingYSize;
+    const formattedMargin = !marginSize ? 3 : marginSize;
+    const formattedDisplay = !display
+        ? ""
+        : "d-flex justify-content-center align-items-center";
 
     const checkType = () => {
         if (type === "select") {
@@ -34,7 +47,9 @@ function FormGroup({
                     onChange={handleChange}
                     value={value}
                 >
-                    <option value="">Select Category Type</option>
+                    <option value="">
+                        {selectDefault ? selectDefault : "Select Category Type"}
+                    </option>
                     {selectOptions.map((option, i) => (
                         <option
                             key={i}
@@ -61,18 +76,12 @@ function FormGroup({
             return (
                 <>
                     <Form.Control
-                        className="fs-3 p-3"
+                        className="fs-3 p-2"
                         accept={accept()}
                         type={type}
                         placeholder={placeholder}
                         onChange={handleChange}
                         name={name}
-                    />
-                    <p className="fs-3 mt-3">Initial Image</p>
-                    <Image
-                        src={`${API_URL}/${imageUrl}`}
-                        width="50px"
-                        alt={"uploaded image"}
                     />
                 </>
             );
@@ -80,7 +89,7 @@ function FormGroup({
 
         return (
             <Form.Control
-                className="fs-3 p-3"
+                className={`fs-${formattedFontSize} py-${formattedPaddingYSize} px-${formattedPaddingXSize}`}
                 accept={accept()}
                 type={type}
                 placeholder={placeholder}
@@ -91,9 +100,19 @@ function FormGroup({
         );
     };
 
+    let showLabel = null;
+    if (hideLabel === "hide") {
+        showLabel = "";
+    } else {
+        showLabel = <Form.Label className="fs-3">{label}</Form.Label>;
+    }
+
     return (
-        <Form.Group className="my-4" controlId={id}>
-            <Form.Label className="fs-3">{label}</Form.Label>
+        <Form.Group
+            className={`my-${formattedMargin} ${formattedDisplay}`}
+            controlId={id}
+        >
+            {showLabel}
             {checkType()}
             {errors &&
                 errors.map((error) => (

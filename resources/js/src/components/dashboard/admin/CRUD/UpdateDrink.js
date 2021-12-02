@@ -6,7 +6,7 @@ import ReactLoading from "react-loading";
 import Swal from "sweetalert2";
 
 import FormTabContent from "./FormTabContent";
-import BackButton from "./BackButton";
+import BackButton from "../../../small-component/BackButton";
 
 function UpdateDrink() {
     const history = useHistory();
@@ -188,7 +188,7 @@ function UpdateDrink() {
     return (
         <Container>
             <Row>
-                <BackButton url="/drinks" />
+                <BackButton text="View Drinks" url="/drinks" />
                 <h1 className="fs-1 fw-bold mb-3">Update Drink</h1>
 
                 <Container fluid>

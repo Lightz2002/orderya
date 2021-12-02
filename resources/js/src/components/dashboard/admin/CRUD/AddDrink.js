@@ -3,7 +3,7 @@ import { Container, Row, Form, Button, Tabs, Tab } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-import BackButton from "./BackButton";
+import BackButton from "../../../small-component/BackButton";
 import FormTabContent from "./FormTabContent";
 
 function AddDrink() {
@@ -167,7 +167,7 @@ function AddDrink() {
     return (
         <Container>
             <Row>
-                <BackButton url="/drinks" />
+                <BackButton text="View Drinks" url="/drinks" />
                 <h1 className="fs-1 fw-bold mb-3">Add Drink</h1>
                 <Container fluid>
                     <Row className="w-50 pb-4">

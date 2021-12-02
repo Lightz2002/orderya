@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardTable from "./DashboardTable";
+import DashboardTable from "../../small-component/DashboardTable";
 
 function DashboardEmployee() {
     return (

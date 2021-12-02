@@ -3,10 +3,14 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DrinkController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\FrontEndController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +39,10 @@ Route::middleware(['auth:sanctum', 'isAdminAPI'])->group(function () {
         return response()->json(['status' => 200, 'message' => 'You are in'], 200);
     });
      
-    Route::get('/viewCategory',[CategoryController::class, 'index']);
     Route::get('/viewCategory/{type}', [CategoryController::class, 'getAllCategoryByType']);
     Route::post('/addCategory',[CategoryController::class, 'store']);
     Route::get('/updateCategory/{id}',[CategoryController::class, 'edit']);
-    Route::put('/updateCategory/{id}',[CategoryController::class, 'update']);
+    Route::post('/updateCategory/{id}',[CategoryController::class, 'update']);
     Route::delete('/deleteCategory/{id}',[CategoryController::class, 'destroy']);
     
     Route::get('/viewFood', [FoodController::class, 'index']);
@@ -53,6 +56,10 @@ Route::middleware(['auth:sanctum', 'isAdminAPI'])->group(function () {
     Route::get('/updateDrink/{id}', [DrinkController::class, 'edit']);
     Route::post('/updateDrink/{id}', [DrinkController::class, 'update']);
     Route::delete('/deleteDrink/{id}', [DrinkController::class, 'destroy']);
+
+    Route::get('/viewAllOrder', [OrderController::class, 'index']);
+    Route::put('/updateOrderStatus/{id}', [OrderController::class, 'updateStatus']);
+
 });
 
 
@@ -61,6 +68,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/checkingAuthentication', function() {
         return response()->json(['status' => 200, 'message' => 'You are in'], 200);
     });
+
+    Route::get('/viewCategory',[FrontEndController::class, 'category']);
+    Route::get('/viewFoodByCategory/{category}', [FrontEndController::class, 'getProductByCategory']);
+    Route::get('/viewProduct/{type}/{id}', [FrontEndController::class, 'getSpecificProduct']);
+
+    Route::get('/viewProduct/{type}', [FrontEndController::class, 'getAllProductByType']);
+    Route::get('/viewCartItems', [FrontEndController::class, 'getAllCartItems']);
+    
+    Route::put('/cart/updateQuantity/{id}/{scope}', [CartController::class, 'updateQuantity']);
+    Route::post('/addToCart', [CartController::class, 'store']);
+    Route::delete('/deleteCartItem/{id}', [CartController::class, 'destroy']);
+    
+    Route::get('/viewSpecificUserOrder', [OrderController::class, 'viewSpecificUserOrder']);
+    Route::get('/viewSpecificOrder/{id}', [OrderController::class, 'show']);
+    Route::post('/placeOrder', [CheckoutController::class, 'placeOrder']);
+
 
     Route::post('logout', [UserController::class, 'logout']);
      

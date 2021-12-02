@@ -104,12 +104,16 @@ html {
     width: 25%;
 }
 
-.dashboard-col-2 {
-    margin-left: 20rem;
+.sidebar {
+    width: 100% !important;
+    // position: fixed;
+    // top: 0;
+    // left: 0;
+    // right: 0;
 }
 
-.sidebar {
-    width: 20rem !important;
+.card-details .card-body {
+    padding: 2rem 1rem !important;
 }
 
 @media only screen and (min-width: 992px) {
@@ -118,6 +122,23 @@ html {
     }
     .home-about-title {
         font-size: 4rem;
+    }
+    .sidebar {
+        width: 20rem !important;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+    }
+    .sidebar,
+    .sidebar .list-group {
+        min-height: 100vh;
+    }
+    .sidebar img {
+        width: 100% !important;
+    }
+
+    .dashboard-col-2 {
+        margin-left: 20rem;
     }
     .login-button,
     .logout-button {
@@ -131,12 +152,88 @@ html {
 }
 
 .btn-back {
-    width: 15rem !important;
+    width: 18rem !important;
+}
+
+.btn-print {
+    width: 12rem !important;
 }
 
 .table-control {
     width: 10rem !important;
 }
+
+.category-card .card-img {
+    object-fit: cover;
+    transition: all 0.3s;
+}
+
+.category-card .card-img-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.category-card {
+    overflow: hidden;
+}
+
+.category-card:hover {
+    cursor: pointer;
+}
+
+.category-card:hover .card-img {
+    transform: scale(1.2);
+    pointer-events: none;
+}
+
+.category-container .card-img-top {
+    object-fit: cover;
+}
+
+.category-container .jumbotron-card-title {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    left: 15px;
+    font-size: 2.5rem;
+    margin-top: -3rem;
+}
+
+.menu-card {
+    transition: all 0.3s;
+}
+
+.menu-card .card-img-top,
+.cart-item .card-img-top {
+    object-fit: cover;
+}
+
+.menu-card:hover {
+    box-shadow: 0 1rem 3rem rgb(20 2 1 / 18%) !important;
+}
+
+.menu-card:hover .card-img-top {
+    cursor: pointer;
+}
+
+.menu-card input::-webkit-outer-spin-button,
+.menu-card input::-webkit-inner-spin-button,
+.card-details input::-webkit-inner-spin-button,
+.card-details input::-webkit-outer-spin-button,
+.cart-item input::-webkit-inner-spin-button,
+.cart-item input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cart-item i:hover {
+    cursor: pointer;
+}
+
+// @media only screen and (min-width: 992px) {
+//     .cart-item .card-img-top {
+//         max-width: 20%;
+//     }
+// }
 
 @media only screen and (max-width: 768px) {
     .home-heroes-container {
