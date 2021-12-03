@@ -1,7 +1,7 @@
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
-const Chart = ({ chartData, text }) => {
+const Chart = ({ chartData, text, titleColor }) => {
     return (
         <div>
             <Line
@@ -14,10 +14,10 @@ const Chart = ({ chartData, text }) => {
                             text: text,
                             align: "start",
                             padding: 12,
+                            color: titleColor,
                             font: {
                                 size: 18,
                                 weight: "bolder",
-                                color: "#000",
                                 lineHeight: 3,
                             },
                         },

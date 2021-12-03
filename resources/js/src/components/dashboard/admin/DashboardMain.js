@@ -15,7 +15,8 @@ function DashboardMain() {
     const [orderCancelled, setOrderCancelled] = useState(0);
     const [totalProfit, setTotalProfit] = useState(0);
     const [todayProfit, setTodayProfit] = useState(0);
-    const [chartData, setChartData] = useState({});
+    const [orderChartData, setOrderChartData] = useState({});
+    const [profitChartData, setProfitChartData] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -36,18 +37,6 @@ function DashboardMain() {
 
     useEffect(() => {
         const months = moment.months();
-        // console.log(orderList);
-        console.log(
-            orderList
-                .filter((order) => order.status === "Delivered")
-                .map((order) =>
-                    order.order_items.reduce(
-                        (total, currentItem) =>
-                            (total += currentItem.price * currentItem.quantity),
-                        0
-                    )
-                )
-        );
 
         if (orderList.length > 0) {
             setOrderToday(
@@ -94,8 +83,8 @@ function DashboardMain() {
                     .reduce((total, subTotal) => (total += subTotal), 0)
             );
 
-            setChartData({
-                labels: months.map((month) => month),
+            setOrderChartData({
+                labels: months,
                 datasets: [
                     {
                         label: "Order Delivered",
@@ -114,19 +103,75 @@ function DashboardMain() {
                             return filterByMonth.length;
                         }),
                         backgroundColor: ["#000"],
-                        borderColor: ["rgb(75, 192, 192"],
+                        borderColor: ["rgb(75, 192, 192)"],
+                    },
+                ],
+            });
+
+            setProfitChartData({
+                labels: months,
+                datasets: [
+                    {
+                        label: "Profit Per Month",
+                        data: months
+                            .map((month) => {
+                                const filterByMonth = orderList
+                                    .filter(
+                                        (order) =>
+                                            moment(
+                                                order.payments.transaction_date
+                                            ).format("MMMM") === month &&
+                                            order.status === "Delivered" &&
+                                            moment(
+                                                order.payments.transaction_date
+                                            ).format("Y") ===
+                                                moment().format("Y")
+                                    )
+                                    .map((order) =>
+                                        order.order_items.reduce(
+                                            (total, current) =>
+                                                (total +=
+                                                    current.price *
+                                                    current.quantity),
+                                            0
+                                        )
+                                    );
+
+                                return filterByMonth;
+                            })
+                            .map((profit) =>
+                                profit.reduce(
+                                    (total, current) => (total += current),
+                                    0
+                                )
+                            ),
+                        backgroundColor: ["#000"],
+                        borderColor: ["#6CB2EB"],
                     },
                 ],
             });
         } else {
-            setChartData({
-                labels: months.map((month) => month),
+            setOrderChartData({
+                labels: months,
                 datasets: [
                     {
-                        label: "Order Delivered",
+                        label: "Order Delivered ",
                         data: [].fill(0, 0, 11),
                         backgroundColor: ["#000"],
-                        borderColor: ["rgb(75, 192, 192"],
+
+                        borderColor: ["rgb(75, 192, 192)"],
+                    },
+                ],
+            });
+
+            setProfitChartData({
+                labels: months,
+                datasets: [
+                    {
+                        label: "Profit",
+                        data: [].fill(0, 0, 11),
+                        backgroundColor: ["#000"],
+                        borderColor: ["#6CB2EB"],
                     },
                 ],
             });
@@ -149,51 +194,64 @@ function DashboardMain() {
     return (
         <Container fluid>
             <h1 className="fw-bolder">Dashboard</h1>
-            <Row className="mt-5 ms-0">
-                <Col lg={6} className="p-0 me-1">
+            <Row className="mt-5 mb-5 ms-0">
+                <Col lg={3}>
+                    <Row className="mb-3 flex-column justify-content-evenly pt-4">
+                        <Col className="mb-3">
+                            <HorizontalCard
+                                title={"Today Order"}
+                                text={orderToday}
+                                img="clipboard-check"
+                                bgColor="info"
+                                textColor="info"
+                            />
+                        </Col>
+                        <Col className="mb-3">
+                            <HorizontalCard
+                                title={"Order Delivered"}
+                                text={orderDelivered}
+                                img="shipping-fast"
+                                bgColor="success"
+                                textColor="success"
+                            />
+                        </Col>
+                        <Col className="mb-3">
+                            <HorizontalCard
+                                title={"Order Cancelled"}
+                                text={orderCancelled}
+                                img="ban"
+                                bgColor="danger"
+                                textColor="danger"
+                            />
+                        </Col>
+                    </Row>
+                </Col>
+                <Col lg={9} className="px-5">
                     <Container className="p-0">
-                        <Row className="mb-3">
-                            <Col>
-                                <HorizontalCard
-                                    title={"Today Order"}
-                                    text={orderToday}
-                                    img="clipboard-check"
-                                    bgColor="info"
-                                    textColor="info"
-                                />
-                            </Col>
-                            <Col>
-                                <HorizontalCard
-                                    title={"Order Delivered"}
-                                    text={orderDelivered}
-                                    img="shipping-fast"
-                                    bgColor="success"
-                                    textColor="success"
-                                />
-                            </Col>
-                            <Col>
-                                <HorizontalCard
-                                    title={"Order Cancelled"}
-                                    text={orderCancelled}
-                                    img="ban"
-                                    bgColor="danger"
-                                    textColor="danger"
-                                />
-                            </Col>
-                        </Row>
-
-                        <Row className="my-3 bg-white p-3 shadow">
+                        <Row className="bg-white p-3 shadow">
                             <Chart
-                                chartData={chartData}
+                                chartData={orderChartData}
                                 text="Total Order Per Month"
+                                titleColor="#000"
                             />
                         </Row>
                     </Container>
                 </Col>
-                <Col lg={5} className="ms-auto">
-                    <Container>
-                        <Row>
-                            <Col className="bg-white shadow">
+            </Row>
+            <Row>
+                <Col lg={9} className="px-5">
+                    <Row className="my-3 bg-white p-3 shadow">
+                        <Chart
+                            chartData={profitChartData}
+                            text="Total Profit Per Month"
+                            titleColor="#6CB2EB"
+                        />
+                    </Row>
+                </Col>
+                <Col lg={3} className="d-flex align-items-center">
+                    <Container className="h-50">
+                        <Row className="flex-column">
+                            <Col className="bg-white shadow mb-3">
                                 <HorizontalCard
                                     title={"Total Profit"}
                                     text={convertNumToRp(totalProfit)}
@@ -211,12 +269,6 @@ function DashboardMain() {
                                     opacity="100"
                                 />
                             </Col>
-                        </Row>
-                        <Row className="my-3 bg-white p-3 shadow">
-                            <Chart
-                                chartData={chartData}
-                                text="Total Profit Per Month"
-                            />
                         </Row>
                     </Container>
                 </Col>

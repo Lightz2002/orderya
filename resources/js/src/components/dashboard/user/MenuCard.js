@@ -11,17 +11,31 @@ import FormGroup from "../../small-component/FormGroup";
 function MenuCard({ item }) {
     let { path, url } = useRouteMatch();
 
-    useEffect(() => {
-        console.log(item);
-    }, []);
+    const [quantity, setQuantity] = useState(1);
 
-    const {
-        quantity,
-        addToCart,
-        handleQuantityChange,
-        handleIncrement,
-        handleDecrement,
-    } = useContext(ProductContext);
+    const handleQuantityChange = (e, maxQuantity) => {
+        if (e.target) {
+            if (e.target.value == 0) {
+                setQuantity("");
+            } else if (e.target.value <= maxQuantity) {
+                setQuantity(+e.target.value);
+            }
+        }
+    };
+
+    const handleIncrement = (maxQuantity) => {
+        if (quantity < maxQuantity) {
+            setQuantity((prevQuantity) => prevQuantity + 1);
+        }
+    };
+
+    const handleDecrement = () => {
+        if (quantity > 1) {
+            setQuantity((prevQuantity) => prevQuantity - 1);
+        }
+    };
+
+    const { addToCart } = useContext(ProductContext);
 
     let link = `${url}/${item.id}`;
     const color = item.quantity === 0 ? "danger" : "success";
@@ -79,7 +93,9 @@ function MenuCard({ item }) {
                                 <Button
                                     variant="outline-secondary"
                                     className="fs-3 py-0 px-3 border border-none"
-                                    onClick={handleIncrement}
+                                    onClick={() =>
+                                        handleIncrement(item.quantity)
+                                    }
                                 >
                                     +
                                 </Button>
@@ -118,7 +134,9 @@ function MenuCard({ item }) {
                                 <Button
                                     variant="primary"
                                     className="d-flex w-100 justify-content-evenly fs-4 align-items-baseline px-4 py-1"
-                                    onClick={(e) => addToCart(e, item)}
+                                    onClick={(e) =>
+                                        addToCart(e, item, quantity)
+                                    }
                                 >
                                     Add
                                     <i className="fs-4 fa fa-shopping-cart py-1"></i>

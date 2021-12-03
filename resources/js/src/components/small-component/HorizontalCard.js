@@ -15,11 +15,13 @@ function HorizontalCard({
         >
             {/* <Card.Img variant="left" src="holder.js/100px180" /> */}
             {img && (
-                <i
-                    className={`fas fa-${img} fs-1 text-${textColor} fw-bolder`}
-                ></i>
+                <div className="w-25 mx-5">
+                    <i
+                        className={`fas fa-fw fa-${img} fs-1 text-${textColor} fw-bolder`}
+                    ></i>
+                </div>
             )}
-            <div>
+            <div className="w-75">
                 <div className={`d-inline text-${textColor} fs-4 fw-bolder`}>
                     {title}
                 </div>

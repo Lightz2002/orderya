@@ -102,7 +102,8 @@ function DashboardOrder() {
                     <td className="align-middle p-4">
                         {convertNumToRp(
                             order.order_items.reduce(
-                                (total, current) => (total += current.price),
+                                (total, current) =>
+                                    (total += current.price * current.quantity),
                                 0
                             )
                         )}

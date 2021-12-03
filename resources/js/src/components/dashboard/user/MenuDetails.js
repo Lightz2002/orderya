@@ -19,13 +19,31 @@ function MenuDetails() {
     const [loading, setLoading] = useState(true);
     const color = productItem.quantity === 0 ? "danger" : "success";
 
-    const {
-        quantity,
-        addToCart,
-        handleQuantityChange,
-        handleIncrement,
-        handleDecrement,
-    } = useContext(ProductContext);
+    const [quantity, setQuantity] = useState(1);
+
+    const handleQuantityChange = (e, maxQuantity) => {
+        if (e.target) {
+            if (e.target.value == 0) {
+                setQuantity("");
+            } else if (e.target.value <= maxQuantity) {
+                setQuantity(+e.target.value);
+            }
+        }
+    };
+
+    const handleIncrement = (maxQuantity) => {
+        if (quantity < maxQuantity) {
+            setQuantity((prevQuantity) => prevQuantity + 1);
+        }
+    };
+
+    const handleDecrement = () => {
+        if (quantity > 1) {
+            setQuantity((prevQuantity) => prevQuantity - 1);
+        }
+    };
+
+    const { addToCart } = useContext(ProductContext);
 
     useEffect(() => {
         axios.get(`api/viewProduct/${type}/${id}`).then((res) => {
@@ -128,7 +146,11 @@ function MenuDetails() {
                                             <Button
                                                 variant="outline-secondary"
                                                 className="fs-3 py-0 px-3 border border-none"
-                                                onClick={handleIncrement}
+                                                onClick={() =>
+                                                    handleIncrement(
+                                                        productItem.quantity
+                                                    )
+                                                }
                                             >
                                                 +
                                             </Button>
@@ -168,7 +190,11 @@ function MenuDetails() {
                                                 variant="primary"
                                                 className="d-flex w-100 justify-content-evenly align-items-baseline fs-4 px-4 py-1"
                                                 onClick={(e) =>
-                                                    addToCart(e, productItem)
+                                                    addToCart(
+                                                        e,
+                                                        productItem,
+                                                        quantity
+                                                    )
                                                 }
                                             >
                                                 Add

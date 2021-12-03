@@ -8,8 +8,6 @@ function ProductProvider(props) {
     const [productList, setProductList] = useState([]);
     const [cartList, setCartList] = useState([]);
 
-    const [quantity, setQuantity] = useState(1);
-
     function updateQuantity(cart_id, scope) {
         axios
             .put(`/api/cart/updateQuantity/${cart_id}/${scope}`)
@@ -58,29 +56,7 @@ function ProductProvider(props) {
         updateQuantity(cart_id, "dec");
     };
 
-    const handleQuantityChange = (e, maxQuantity) => {
-        if (e.target) {
-            if (e.target.value == 0) {
-                setQuantity("");
-            } else if (e.target.value <= maxQuantity) {
-                setQuantity(+e.target.value);
-            }
-        }
-    };
-
-    const handleIncrement = () => {
-        if (quantity < 10) {
-            setQuantity((prevQuantity) => prevQuantity + 1);
-        }
-    };
-
-    const handleDecrement = () => {
-        if (quantity > 1) {
-            setQuantity((prevQuantity) => prevQuantity - 1);
-        }
-    };
-
-    const addToCart = (e, item) => {
+    const addToCart = (e, item, quantity) => {
         const existedItem = cartList.find(
             (cartItem) => cartItem.id === item.id
         );
@@ -139,15 +115,11 @@ function ProductProvider(props) {
                 productList,
                 setProductList,
                 deleteCartItem,
-                handleQuantityChange,
                 cartList,
                 setCartList,
                 increaseQuantity,
                 decreaseQuantity,
-                handleIncrement,
-                handleDecrement,
                 addToCart,
-                quantity,
             }}
         >
             {props.children}
