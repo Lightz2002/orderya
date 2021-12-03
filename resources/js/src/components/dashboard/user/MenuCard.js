@@ -85,7 +85,11 @@ function MenuCard({ item }) {
                         </Card.Text>
                     </Row>
                 </Container>
-                <Card.Text>{item.description}</Card.Text>
+                <Card.Text>
+                    {item.description === "null" || item.description === null
+                        ? ""
+                        : item.description}
+                </Card.Text>
                 {item.quantity > 0 && (
                     <Container className="p-0 mt-5">
                         <Row className="align-items-center mt-3">
