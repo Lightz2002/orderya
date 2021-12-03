@@ -74,11 +74,15 @@ function DashboardCategory() {
         );
     } else if (categoryList.length > 0) {
         row = categoryList.map((category) => {
+            // const description =
             return (
                 <tr key={uuidv4()}>
                     <td className="align-middle p-4">{category.name}</td>
                     <td className="align-middle p-4">
-                        {category.description || ""}
+                        {category.description === "null" ||
+                        category.description === null
+                            ? ""
+                            : category.description}
                     </td>
                     <td className="align-middle p-4">{category.type}</td>
                     <td className="align-middle p-4">
