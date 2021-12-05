@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Mail\SendEmail;
 use App\Models\Order;
 use App\Models\Transaction;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 
 class CheckoutController extends Controller
@@ -38,6 +40,9 @@ class CheckoutController extends Controller
             } 
             else {
                 $user_id = auth('sanctum')->user()->id;
+                $user_email = auth('sanctum')->user()->email;
+
+                
 
                 $transaction = new Transaction;
                 $transaction->user_id = $user_id;
@@ -56,8 +61,7 @@ class CheckoutController extends Controller
                 }
 
                 $transaction->phone_number = $request->phone_number;    
-                $transaction->save();
-
+                
                 $order = new Order;
                 $order->id = $order_id;
                 $order->user_id = $user_id;
@@ -65,11 +69,11 @@ class CheckoutController extends Controller
                 $order->zipcode = $request->zipcode;
                 $order->address = $request->address;
                 $order->note_for_order = $request->note_for_order;
-
-                $order->save();
+                   
 
                 $cart = Cart::where('user_id', $user_id)->get();
-
+            
+                
                 $orderItems = [];
                 
                 foreach($cart as $item) {
@@ -88,7 +92,11 @@ class CheckoutController extends Controller
 
                 }
 
+                $transaction->save();
+                $order->save();
                 $order->orderItems()->createMany($orderItems);
+                // dd($order_id);
+                Mail::to($user_email)->send(new SendEmail($user_email, $order_id));
                 Cart::destroy($cart);
 
                 return response()->json([

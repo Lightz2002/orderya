@@ -71,11 +71,7 @@ function OrderDetails() {
                         {convertNumToRp(item.price)}
                     </td>
                     <td className="align-middle p-4">{item.quantity}</td>
-                    <td className="align-middle p-4">
-                        {item.foods
-                            ? item.foods.serving_time
-                            : item.drinks.serving_time}
-                    </td>
+                    <td className="align-middle p-4">{itemType}</td>
                     <td className="align-middle p-4">
                         <Image
                             src={`${API_URL}/${itemType.image}`}

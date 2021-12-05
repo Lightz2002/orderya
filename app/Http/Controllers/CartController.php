@@ -29,6 +29,8 @@ class CartController extends Controller
     {
         if(auth('sanctum')->check()) {
             $user_id = auth('sanctum')->user()->id;
+
+
             $product_id = $request->product_id;
             $product_type = $request->product_type;
             $product_qty = $request->product_qty;

@@ -60,7 +60,7 @@ function MenuCard({ item }) {
                 <Container fluid className="p-0">
                     <Row className="align-items-baseline">
                         <Col>
-                            <Card.Title className="fw-bolder fs-1">
+                            <Card.Title className="fw-bolder fs-2">
                                 {item.name}
                             </Card.Title>
                         </Col>
