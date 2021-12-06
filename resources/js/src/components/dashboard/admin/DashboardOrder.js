@@ -9,6 +9,11 @@ import DashboardAdminHeader from "./DashboardAdminHeader";
 import { truncateString, convertNumToRp } from "../../../../helper";
 import DashboardTable from "../../small-component/DashboardTable";
 import { OrderContext } from "../context/OrderContext";
+import FormGroup from "../../small-component/FormGroup";
+import generatePDF from "../../../services/ReportGenerator";
+
+import moment from "moment";
+import Swal from "sweetalert2";
 
 function DashboardOrder() {
     let { path, url } = useRouteMatch();
@@ -25,20 +30,105 @@ function DashboardOrder() {
     ];
 
     const { orderList, setOrderList } = useContext(OrderContext);
+    const [salesTime, setSalesTime] = useState("Day");
     const [loading, setLoading] = useState(true);
+
+    const handleTimeChange = (e) => {
+        setSalesTime(e.target.value);
+    };
 
     useEffect(() => {
         axios.get("/api/viewAllOrder").then((res) => {
             if (res.status === 200) {
                 setOrderList(res.data.order);
-                console.log(res.data.order);
             }
             setLoading(false);
         });
+
         return () => {
             setLoading(false);
         };
     }, []);
+
+    useEffect(() => {
+        const getOrder = (time) => {
+            let sales = [];
+            switch (time) {
+                case "Day":
+                    sales = orderList
+                        .filter(
+                            (order) =>
+                                order.status === "Delivered" &&
+                                moment(order.payments.transaction_date) ===
+                                    moment().format("YYYY-MM-DD")
+                        )
+                        .map((order) =>
+                            order.order_items.foods
+                                ? order.order_items.foods
+                                : order.order_items.drinks
+                        )
+                        .reduce(
+                            (allObject, currentObject) =>
+                                allObject.concat(currentObject),
+                            []
+                        )
+                        .map((order) =>
+                            order.foods ? order.foods : order.drinks
+                        );
+                    return sales;
+                case "Week":
+                    const weekValue = moment().week();
+                    const startOfThisWeek = moment()
+                        .week(weekValue)
+                        .format("YYYY-MM-DD");
+                    const endOfThisWeek = moment(startOfThisWeek)
+                        .add(6, "days")
+                        .format("YYYY-MM-DD");
+                    sales = orderList
+                        .filter(
+                            (order) =>
+                                order.status === "Delivered" &&
+                                moment(
+                                    order.payments.transaction_date
+                                ).isBetween(startOfThisWeek, endOfThisWeek)
+                        )
+                        .map((order) =>
+                            order.order_items.foods
+                                ? order.order_items.foods
+                                : order.order_items.drinks
+                        )
+                        .reduce(
+                            (allObject, currentObject) =>
+                                allObject.concat(currentObject),
+                            []
+                        )
+                        .map((order) =>
+                            order.foods ? order.foods : order.drinks
+                        );
+                    return sales;
+
+                case "Month":
+                    sales = orderList
+                        .filter(
+                            (order) =>
+                                order.status === "Delivered" &&
+                                moment(order.payments.transaction_date).format(
+                                    "M"
+                                ) === moment().format("M")
+                        )
+                        .map((order) => order.order_items)
+                        .reduce(
+                            (allObject, currentObject) =>
+                                allObject.concat(currentObject),
+                            []
+                        )
+                        .map((order) =>
+                            order.foods ? order.foods : order.drinks
+                        );
+                    return sales;
+            }
+        };
+    }, [orderList]);
 
     let row = null;
     if (loading) {
@@ -149,10 +239,117 @@ function DashboardOrder() {
         });
     }
 
+    const getAllOrderByTime = (time) => {
+        let sales = [];
+        switch (time) {
+            case "Day":
+                sales = orderList
+                    .filter(
+                        (order) =>
+                            order.status === "Delivered" &&
+                            moment(order.payments.transaction_date) ===
+                                moment().format("YYYY-MM-DD")
+                    )
+                    .map((order) => order.order_items)
+                    .reduce(
+                        (allObject, currentObject) =>
+                            allObject.concat(currentObject),
+                        []
+                    )
+                    .map((order) => (order.foods ? order.foods : order.drinks));
+                return sales;
+
+            case "Week":
+                const weekValue = moment().week();
+                const startOfThisWeek = moment()
+                    .week(weekValue)
+                    .format("YYYY-MM-DD");
+                const endOfThisWeek = moment(startOfThisWeek)
+                    .add(6, "days")
+                    .format("YYYY-MM-DD");
+
+                sales = orderList
+                    .filter(
+                        (order) =>
+                            order.status === "Delivered" &&
+                            moment(order.payments.transaction_date).isBetween(
+                                startOfThisWeek,
+                                endOfThisWeek
+                            )
+                    )
+                    .map((order) => order.order_items)
+                    .reduce(
+                        (allObject, currentObject) =>
+                            allObject.concat(currentObject),
+                        []
+                    )
+                    .map((order) => (order.foods ? order.foods : order.drinks));
+                return sales;
+
+            case "Month":
+                sales = orderList
+                    .filter(
+                        (order) =>
+                            order.status === "Delivered" &&
+                            moment(order.payments.transaction_date).format(
+                                "M"
+                            ) === moment().format("M")
+                    )
+                    .map((order) => order.order_items)
+                    .reduce(
+                        (allObject, currentObject) =>
+                            allObject.concat(currentObject),
+                        []
+                    )
+                    .map((order) => (order.foods ? order.foods : order.drinks));
+                return sales;
+        }
+    };
+
     return (
         <Container fluid>
             <Row>
-                <DashboardAdminHeader title="Order" button={false} />
+                <Container>
+                    <Row className="align-items-center">
+                        <Col>
+                            <DashboardAdminHeader
+                                title="Order"
+                                button={false}
+                            />
+                        </Col>
+                        <Col
+                            lg={4}
+                            className="d-flex justify-content-center align-items-center"
+                        >
+                            <FormGroup
+                                type="select"
+                                name="time"
+                                selectOptions={["Day", "Week", "Month"]}
+                                value={salesTime}
+                                fontSize={5}
+                                marginSize={0}
+                                paddingXSize={4}
+                                handleChange={handleTimeChange}
+                                selectDefault="Select Print Time"
+                                moreStyle="d-flex align-items-center"
+                            />
+                            <Button
+                                variant="outline-secondary"
+                                className="ms-5 fs-5 p-3"
+                                onClick={() =>
+                                    generatePDF(
+                                        `All Sales By ${salesTime}`,
+                                        ["Name", "Price", "Amount"],
+                                        getAllOrderByTime(salesTime),
+                                        ["name", "price", "quantity"]
+                                    )
+                                }
+                            >
+                                Print Sales By Time
+                            </Button>
+                        </Col>
+                    </Row>
+                </Container>
             </Row>
             <Row>
                 <Col className="p-0">

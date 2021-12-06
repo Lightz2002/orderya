@@ -27,7 +27,8 @@ function FormTabContent({
                     selectOptions={selectOptions}
                     categoryList={true}
                     imageUrl={input.name === "image" ? state[input.name] : null}
-                    marginSize={5}
+                    marginSize={4}
+                    fontSize={4}
                 />
             ))}
         </>

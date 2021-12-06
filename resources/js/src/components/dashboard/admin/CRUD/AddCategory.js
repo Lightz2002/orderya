@@ -109,7 +109,8 @@ function AddCategory() {
                                     value={category[input.name]}
                                     errors={errorList[input.name]}
                                     selectOptions={input.selectOptions || []}
-                                    marginSize={5}
+                                    marginSize={4}
+                                    fontSize={4}
                                 />
                             ))}
                             <Button

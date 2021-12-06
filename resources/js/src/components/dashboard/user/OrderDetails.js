@@ -29,6 +29,7 @@ function OrderDetails() {
     let history = useHistory();
 
     useEffect(() => {
+        console.log("tes");
         axios.get(`/api/viewSpecificOrder/${id}`).then((res) => {
             if (res.data.status === 200) {
                 setOrderList(res.data.order);
@@ -57,9 +58,9 @@ function OrderDetails() {
             </Container>
         );
     } else {
-        const { order_items } = orderList;
+        // const { order_items } = orderList;
 
-        orderItemRows = order_items.map((item, index) => {
+        orderItemRows = orderList.order_items.map((item, index) => {
             const itemType = item.foods ? item.foods : item.drinks;
             totalPrice += item.quantity * item.price;
 
@@ -71,7 +72,9 @@ function OrderDetails() {
                         {convertNumToRp(item.price)}
                     </td>
                     <td className="align-middle p-4">{item.quantity}</td>
-                    <td className="align-middle p-4">{itemType}</td>
+                    <td className="align-middle p-4">
+                        {itemType.serving_time}
+                    </td>
                     <td className="align-middle p-4">
                         <Image
                             src={`${API_URL}/${itemType.image}`}

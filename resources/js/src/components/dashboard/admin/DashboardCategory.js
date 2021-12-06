@@ -17,7 +17,6 @@ function DashboardCategory() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log(API_URL);
         axios.get(`/api/viewCategory`).then((res) => {
             if (res.status === 200) {
                 setCategoryList(res.data.category);

@@ -20,6 +20,7 @@ function FormGroup({
     display,
     hideLabel,
     selectDefault,
+    moreStyle,
 }) {
     const accept = () => {
         if (type === "file") {
@@ -29,10 +30,10 @@ function FormGroup({
         }
     };
 
-    const formattedFontSize = !fontSize ? 3 : fontSize;
-    const formattedPaddingXSize = !paddingXSize ? 3 : paddingXSize;
-    const formattedPaddingYSize = !paddingYSize ? 3 : paddingYSize;
-    const formattedMargin = !marginSize ? 3 : marginSize;
+    const formattedFontSize = fontSize === undefined ? 3 : fontSize;
+    const formattedPaddingXSize = paddingXSize === undefined ? 3 : paddingXSize;
+    const formattedPaddingYSize = paddingYSize === undefined ? 3 : paddingYSize;
+    const formattedMargin = marginSize === undefined ? 3 : marginSize;
     const formattedDisplay = !display
         ? ""
         : "d-flex justify-content-center align-items-center";
@@ -41,7 +42,7 @@ function FormGroup({
         if (type === "select") {
             return (
                 <Form.Select
-                    className="dropdown fs-3 p-3"
+                    className={`dropdown fs-${formattedFontSize} px-${formattedPaddingXSize} py-${formattedPaddingYSize}`}
                     aria-label="Default select example"
                     name={name}
                     onChange={handleChange}
@@ -64,7 +65,7 @@ function FormGroup({
             return (
                 <Form.Control
                     as="textarea"
-                    className="fs-3 p-3"
+                    className={`fs-${formattedFontSize} py-${formattedPaddingYSize} px-${formattedPaddingXSize}`}
                     rows={3}
                     placeholder={placeholder}
                     onChange={handleChange}
@@ -76,7 +77,7 @@ function FormGroup({
             return (
                 <>
                     <Form.Control
-                        className="fs-3 p-2"
+                        className={`fs-${formattedFontSize} py-${formattedPaddingYSize} px-${formattedPaddingXSize}`}
                         accept={accept()}
                         type={type}
                         placeholder={placeholder}
@@ -109,7 +110,7 @@ function FormGroup({
 
     return (
         <Form.Group
-            className={`my-${formattedMargin} ${formattedDisplay}`}
+            className={`my-${formattedMargin} ${formattedDisplay} ${moreStyle}`}
             controlId={id}
         >
             {showLabel}
