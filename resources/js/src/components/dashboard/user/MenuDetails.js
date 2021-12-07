@@ -111,22 +111,28 @@ function MenuDetails() {
                                     <Col>
                                         <h3 className="fw-bold">Description</h3>
                                         <Card.Text className="fs-3 text-secondary ms-auto">
-                                            {productItem.description ||
-                                                "There is no description for this product yet"}
+                                            {productItem.description === null ||
+                                            productItem.description === "null"
+                                                ? "There is no description for this product yet"
+                                                : productItem.description}
                                         </Card.Text>
                                     </Col>
                                     <Col>
                                         <h3 className="fw-bold ">Recipe</h3>
                                         <Card.Text className="fs-3 text-secondary ms-auto">
-                                            {productItem.recipe ||
-                                                "There is no recipe for this product yet"}
+                                            {productItem.recipe === null ||
+                                            productItem.recipe === "null"
+                                                ? "There is no recipe for this product yet"
+                                                : productItem.recipe}
                                         </Card.Text>
                                     </Col>
                                     <Col>
                                         <h3 className="fw-bold">Ingredient</h3>
                                         <Card.Text className="fs-3 text-secondary ms-auto">
-                                            {productItem.ingredient ||
-                                                "There is no ingredient for this product yet"}
+                                            {productItem.ingredient === null ||
+                                            productItem.ingredient === "null"
+                                                ? "There is no Ingredient for this product yet"
+                                                : productItem.ingredient}
                                         </Card.Text>
                                     </Col>
                                 </Row>

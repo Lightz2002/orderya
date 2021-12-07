@@ -21,6 +21,7 @@ function FormGroup({
     hideLabel,
     selectDefault,
     moreStyle,
+    disabled,
 }) {
     const accept = () => {
         if (type === "file") {
@@ -47,8 +48,9 @@ function FormGroup({
                     name={name}
                     onChange={handleChange}
                     value={value}
+                    disabled={disabled}
                 >
-                    <option value="">
+                    <option disabled value="">
                         {selectDefault ? selectDefault : "Select Category Type"}
                     </option>
                     {selectOptions.map((option, i) => (

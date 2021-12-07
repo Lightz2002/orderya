@@ -11,7 +11,7 @@ import DashboardAdminHeader from "./DashboardAdminHeader";
 import TableControl from "./TableControl";
 import { API_URL } from "../../../../config";
 import { convertNumToRp } from "../../../../helper";
-import generatePDF from "../../../services/reportGenerator";
+import generatePDF from "../../../services/ReportGenerator";
 
 function DashboardFood() {
     const tableHeader = [
@@ -114,6 +114,21 @@ function DashboardFood() {
         });
     }
 
+    const generateFoodReportData = (foodList) => {
+        let tableRows = [
+            ...foodList.map((food, index) => [
+                index + 1,
+                food.category.name,
+                food.name,
+                food.quantity,
+                convertNumToRp(food.price),
+                food.serving_time,
+            ]),
+        ];
+
+        return tableRows;
+    };
+
     return (
         <Container fluid>
             <Row>
@@ -124,17 +139,16 @@ function DashboardFood() {
                     onClick={() =>
                         generatePDF(
                             "All Food Menus",
-                            tableHeader,
-                            foodList,
                             [
-                                "category",
-                                "name",
-                                "quantity",
-                                "price",
-                                "serving_time",
-                                "image",
+                                "No",
+                                "Category",
+                                "Name",
+                                "Quantity",
+                                "Price",
+                                "Serving Time",
                             ],
-                            "name"
+                            generateFoodReportData(foodList),
+                            ""
                         )
                     }
                 >

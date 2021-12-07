@@ -29,7 +29,6 @@ function OrderDetails() {
     let history = useHistory();
 
     useEffect(() => {
-        console.log("tes");
         axios.get(`/api/viewSpecificOrder/${id}`).then((res) => {
             if (res.data.status === 200) {
                 setOrderList(res.data.order);
@@ -58,8 +57,6 @@ function OrderDetails() {
             </Container>
         );
     } else {
-        // const { order_items } = orderList;
-
         orderItemRows = orderList.order_items.map((item, index) => {
             const itemType = item.foods ? item.foods : item.drinks;
             totalPrice += item.quantity * item.price;

@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import ReactLoading from "react-loading";
 import { v4 as uuidv4 } from "uuid";
 
-import generatePDF from "../../../services/reportGenerator";
+import generatePDF from "../../../services/ReportGenerator";
 import DashboardTable from "../../small-component/DashboardTable";
 import DashboardAdminHeader from "./DashboardAdminHeader";
 import TableControl from "./TableControl";
@@ -14,15 +14,32 @@ import { API_URL } from "../../../../config";
 function DashboardCategory() {
     const tableHeader = ["Name", "Description", "Type", "Image"];
     const [categoryList, setCategoryList] = useState([]);
+    const [drinkList, setDrinkList] = useState([]);
+    const [foodList, setFoodList] = useState([]);
+
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         axios.get(`/api/viewCategory`).then((res) => {
             if (res.status === 200) {
                 setCategoryList(res.data.category);
+                console.log(res.data.category);
             }
             setLoading(false);
         });
+
+        axios.get("api/viewFood").then((res) => {
+            if (res.status === 200) {
+                setFoodList(res.data.food);
+            }
+        });
+
+        axios.get("api/viewDrink").then((res) => {
+            if (res.status === 200) {
+                setDrinkList(res.data.drink);
+            }
+        });
+
         return () => {
             setLoading(false);
         };
@@ -102,6 +119,32 @@ function DashboardCategory() {
         });
     }
 
+    const generateCategoryReportData = (categoryList, menuList) => {
+        let tableRows = [...categoryList].map((category, index) => [
+            index + 1,
+            category.name,
+            category.description,
+            category.type,
+        ]);
+
+        let categoryDatas = tableRows.map((row) => {
+            let categoryQuantity = "";
+            if (row[3] === "Foods") {
+                categoryQuantity = menuList[0].filter(
+                    (menu) => menu.category.name === row[1]
+                );
+            } else {
+                categoryQuantity = menuList[1].filter(
+                    (menu) => menu.category.name === row[1]
+                );
+            }
+
+            return [...row, categoryQuantity.length];
+        });
+
+        return categoryDatas;
+    };
+
     return (
         <Container fluid>
             <Row>
@@ -112,9 +155,18 @@ function DashboardCategory() {
                     onClick={() =>
                         generatePDF(
                             "All Categories",
-                            tableHeader,
-                            categoryList,
-                            ["name", "description", "type", "image"]
+                            [
+                                "No",
+                                "Name",
+                                "Description",
+                                "Type",
+                                "Total Menu With This Category",
+                            ],
+                            generateCategoryReportData(categoryList, [
+                                foodList,
+                                drinkList,
+                            ]),
+                            ""
                         )
                     }
                 >

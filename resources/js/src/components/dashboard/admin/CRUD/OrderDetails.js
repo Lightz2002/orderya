@@ -156,6 +156,7 @@ function OrderDetails() {
                         ]}
                         selectDefault={"Select Payment Status"}
                         hideLabel={"hide"}
+                        disabled={orderList.payments.status === "Approved"}
                     />
                 </td>
                 <td className="align-middle p-4">

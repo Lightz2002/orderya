@@ -10,7 +10,7 @@ import DashboardAdminHeader from "./DashboardAdminHeader";
 import TableControl from "./TableControl";
 import { API_URL } from "../../../../config";
 import { convertNumToRp } from "../../../../helper";
-import generatePDF from "../../../services/reportGenerator";
+import generatePDF from "../../../services/ReportGenerator";
 
 function DashboardDrink() {
     const tableHeader = [
@@ -108,6 +108,21 @@ function DashboardDrink() {
         });
     }
 
+    const generateDrinkReportData = (drinkList) => {
+        let tableRows = [
+            ...drinkList.map((drink, index) => [
+                index + 1,
+                drink.category.name,
+                drink.name,
+                drink.quantity,
+                convertNumToRp(drink.price),
+                drink.serving_time,
+            ]),
+        ];
+
+        return tableRows;
+    };
+
     return (
         <Container fluid>
             <Row>
@@ -118,17 +133,16 @@ function DashboardDrink() {
                     onClick={() =>
                         generatePDF(
                             "All Drink Menus",
-                            tableHeader,
-                            drinkList,
                             [
-                                "category",
-                                "name",
-                                "quantity",
-                                "price",
-                                "serving_time",
-                                "image",
+                                "No",
+                                "Category",
+                                "Name",
+                                "Quantity",
+                                "Price",
+                                "Serving Time",
                             ],
-                            "name"
+                            generateDrinkReportData(drinkList),
+                            ""
                         )
                     }
                 >
