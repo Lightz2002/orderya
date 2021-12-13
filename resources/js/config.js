@@ -1,4 +1,4 @@
-export const API_URL = "http://orderya.test";
+export const API_URL = "https://orderya.herokuapp.com/";
 
 // https://orderya.herokuapp.com/
 // http://orderya.test
