@@ -2,7 +2,6 @@ import DashboardMain from "../dashboard/admin/DashboardMain";
 import DashboardCategory from "../dashboard/admin/DashboardCategory";
 import DashboardFood from "../dashboard/admin/DashboardFood";
 import DashboardDrink from "../dashboard/admin/DashboardDrink";
-import DashboardEmployee from "../dashboard/admin/DashboardEmployee";
 import DashboardOrder from "../dashboard/admin/DashboardOrder";
 import AddCategory from "../dashboard/admin/CRUD/AddCategory";
 import AddFood from "../dashboard/admin/CRUD/AddFood";
@@ -64,11 +63,7 @@ const adminRoutes = [
         exact: true,
         component: UpdateDrink,
     },
-    {
-        path: "/employee",
-        exact: true,
-        component: DashboardEmployee,
-    },
+
     {
         path: "/order",
         exact: true,
