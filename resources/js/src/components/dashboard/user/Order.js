@@ -165,7 +165,6 @@ function Order() {
                 Order
             </h3>
             <Row className="p-3">
-                {/* <h1 className="fw-bolder bg-dark">Order</h1> */}
                 <DashboardTable
                     header={orderHeader}
                     body={row}
