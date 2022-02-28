@@ -17,14 +17,14 @@ class FoodController extends Controller
     public function index()
     {
         $food = Food::all();
-       
+
         return response()->json([
             'status' => 200,
             'food' => $food
         ]);
     }
 
-  
+
 
     /**
      * Show the form for creating a new resource.
@@ -53,13 +53,12 @@ class FoodController extends Controller
             'serving_time' => 'required',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'errors' => $validator->errors()
             ]);
-        }
-        else {
+        } else {
             $food = new Food;
             $food->category_id = $request->input('category_id');
             $food->name = $request->input('name');
@@ -69,14 +68,14 @@ class FoodController extends Controller
             $food->ingredient = $request->input('ingredient');
             $food->recipe = $request->input('recipe');
             $food->serving_time = $request->input('serving_time');
-            
-            if($request->hasFile('image')) {
-                
+
+            if ($request->hasFile('image')) {
+
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $extension;
-                $file->move('uploads/foods/',$filename);
-                $food->image = "uploads/foods/".$filename;
+                $file->move('uploads/foods/', $filename);
+                $food->image = "uploads/foods/" . $filename;
             }
 
             $food->save();
@@ -108,17 +107,17 @@ class FoodController extends Controller
     public function edit(Food $food, $id)
     {
         $food = Food::find($id);
-        if($food) {
+        if ($food) {
 
             return response()->json([
-                'status'=> 200,
+                'status' => 200,
                 'food' => $food,
             ]);
         } else {
             return response()->json([
-                'status'=> 404,
+                'status' => 404,
                 'message' => "The Selected Food Is Not Found",
-            ]); 
+            ]);
         }
     }
 
@@ -133,21 +132,20 @@ class FoodController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category_id' => 'required',
-            'name' => 'required|unique:food,name,' . $id,
+            'name' => 'required|unique:food,name' . $id,
             'price' => 'required|integer|min:0',
             'quantity' => 'required|integer|min:0',
             'serving_time' => 'required',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'errors' => $validator->errors()
             ]);
-        }
-        else {
+        } else {
             $food = Food::find($id);
-            if($food) {
+            if ($food) {
                 $food->category_id = $request->input('category_id');
                 $food->name = $request->input('name');
                 $food->quantity = $request->input('quantity');
@@ -156,31 +154,31 @@ class FoodController extends Controller
                 $food->ingredient = $request->input('ingredient');
                 $food->recipe = $request->input('recipe');
                 $food->serving_time = $request->input('serving_time');
-    
-                if($request->hasFile('image')) {
-                 
+
+                if ($request->hasFile('image')) {
+
                     $path = $food->image;
-                    if(File::exists($path)) {
+                    if (File::exists($path)) {
                         File::delete($path);
                     }
                     $file = $request->file('image');
                     $extension = $file->getClientOriginalExtension();
                     $filename = time() . '.' . $extension;
-                    $file->move('uploads/foods/',$filename);
-                    $food->image = "uploads/foods/".$filename;
+                    $file->move('uploads/foods/', $filename);
+                    $food->image = "uploads/foods/" . $filename;
                 }
-    
+
                 $food->update();
-    
+
                 return response()->json([
                     'status' => 200,
                     'message' => 'Food updated successfully'
                 ]);
             } else {
                 return response()->json([
-                    'status'=> 404,
+                    'status' => 404,
                     'message' => "The Selected Food Is Not Found",
-                ]); 
+                ]);
             }
         }
     }
@@ -194,14 +192,14 @@ class FoodController extends Controller
     public function destroy(Food $food, $id)
     {
         $food = Food::find($id);
-        if($food) {
+        if ($food) {
             $food->delete();
             $path = $food->image;
-            if(File::exists($path)) {
+            if (File::exists($path)) {
                 File::delete($path);
             }
             return response()->json([
-                'status'=> 200,
+                'status' => 200,
                 'message' => 'Food deleted successfully'
             ]);
         } else {
